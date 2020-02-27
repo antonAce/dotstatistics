@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
+import { ModelTooltipComponent } from './model-tooltip/model-tooltip.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TopHeaderComponent
+    TopHeaderComponent,
+    ModelTooltipComponent
   ],
   imports: [
     BrowserModule,
