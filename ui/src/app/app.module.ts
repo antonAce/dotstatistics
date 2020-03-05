@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ModelTooltipComponent } from './model-tooltip/model-tooltip.component';
+import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopHeaderComponent,
-    ModelTooltipComponent
+    ModelTooltipComponent,
+    StatisticsTableComponent
   ],
   imports: [
     BrowserModule,
