@@ -19,7 +19,7 @@
       "dom"
     ],
     "paths": {
-        "@models/*": ["src/core/*"],
+        "@models/*": ["src/models/*"],
         "@services/*": ["src/services/*"]
     }
   },
