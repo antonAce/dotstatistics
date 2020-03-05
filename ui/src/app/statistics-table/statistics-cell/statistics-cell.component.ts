@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'statistics-cell',
@@ -16,8 +16,7 @@ export class StatisticsCellComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
 
   set value(val) {
-    this._value = val;
-    this.valueChange.emit(this._value);
+    this.onValueChanged(val);
   }
 
   private _value: number;
@@ -32,9 +31,15 @@ export class StatisticsCellComponent implements OnInit {
     if (!this.IsInEditMode && !this.isReadonly) this.IsInEditMode = true;
   }
 
-  onKeydown(event) {
+  onKeydown(event, cell: HTMLInputElement) {
     if (this.IsInEditMode && event.key === "Enter") {
       this.IsInEditMode = false;
+      this.onValueChanged(cell.value)
     }
+  }
+
+  onValueChanged(val) {
+    this._value = val;
+    this.valueChange.emit(this._value);
   }
 }
