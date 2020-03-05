@@ -2,14 +2,34 @@
     <table class="table table-striped table-sm">
         <thead>
             <tr>            
-            <th *ngFor="let headCell of getHeadingFormat()">{{headCell}}</th>
+            <th *ngFor="let headCell of getHeadingFormat()">
+                <statistics-cell 
+                [isReadonly]="true" 
+                [(value)]="headCell">
+                </statistics-cell>
+            </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let row of rows">
-                <td>{{row.id}}</td>
-                <td *ngFor="let arg of row.args">{{arg}}</td>
-                <td>{{row.result}}</td>
+                <td>
+                    <statistics-cell 
+                    [isReadonly]="true" 
+                    [(value)]="row.id">
+                    </statistics-cell>
+                </td>
+                <td *ngFor="let arg of row.args">
+                    <statistics-cell 
+                    [isReadonly]="true" 
+                    [(value)]="arg">
+                    </statistics-cell>
+                </td>
+                <td>
+                    <statistics-cell 
+                    [isReadonly]="true" 
+                    [(value)]="row.result">
+                    </statistics-cell>
+                </td>
             </tr>
         </tbody>
     </table>
