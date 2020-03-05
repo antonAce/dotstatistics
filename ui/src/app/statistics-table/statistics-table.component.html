@@ -20,13 +20,13 @@
                 </td>
                 <td *ngFor="let arg of row.args">
                     <statistics-cell 
-                    [isReadonly]="true" 
+                    [isReadonly]="false" 
                     [(value)]="arg">
                     </statistics-cell>
                 </td>
                 <td>
                     <statistics-cell 
-                    [isReadonly]="true" 
+                    [isReadonly]="false" 
                     [(value)]="row.result">
                     </statistics-cell>
                 </td>

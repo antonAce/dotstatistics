@@ -1,1 +1,4 @@
-<div class="cell">{{_value}}</div>
+<div *ngIf="!IsInEditMode" class="cell">{{_value}}</div>
+<div *ngIf="IsInEditMode" class="cell">
+    <input type="text" value="{{_value}}" (keydown)="onKeydown($event)"/>
+</div>

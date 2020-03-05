@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Component({
   selector: 'statistics-cell',
@@ -21,10 +21,20 @@ export class StatisticsCellComponent implements OnInit {
   }
 
   private _value: number;
+  private IsInEditMode: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  @HostListener("dblclick") onDoubleClick() {
+    if (!this.IsInEditMode && !this.isReadonly) this.IsInEditMode = true;
+  }
+
+  onKeydown(event) {
+    if (this.IsInEditMode && event.key === "Enter") {
+      this.IsInEditMode = false;
+    }
+  }
 }
