@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ModelTooltipComponent } from './model-tooltip/model-tooltip.component';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
+import { StatisticsCellComponent } from './statistics-table/statistics-cell/statistics-cell.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopHeaderComponent,
     ModelTooltipComponent,
-    StatisticsTableComponent
+    StatisticsTableComponent,
+    StatisticsCellComponent
   ],
   imports: [
     BrowserModule,
