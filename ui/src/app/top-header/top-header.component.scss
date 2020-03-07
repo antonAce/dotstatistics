@@ -1,0 +1,115 @@
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5rem 1rem;
+    justify-content: flex-start;
+}
+
+.navbar .form-control {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.navbar-dark .navbar-brand {
+    color: #fff;
+}
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1rem;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.p-0 {
+    padding: 0;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.fixed-top {
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.button-holder {
+    display: flex;
+    flex-direction: row;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+    display: inline-block;
+}
+.inputfile:focus + label,
+.inputfile + label:hover {
+    color: #fff;
+    background-color: #23272b;
+    border-color: #1d2124;
+    box-shadow: 0 0 0 0.2rem rgba(82,88,93,.5);
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+	pointer-events: none;
+}
+
+.inputfile + label span {
+    padding: .375rem .75rem;
+    width: 200px;
+    min-height: 2em;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.inputfile + label button {
+    height: 100%;
+    display: inline-block;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 50em) {
+	.inputfile + label button {
+		display: block;
+	}
+}

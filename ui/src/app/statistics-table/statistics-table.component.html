@@ -1,0 +1,36 @@
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>            
+            <th *ngFor="let headCell of getHeadingFormat()">
+                <statistics-cell 
+                [isReadonly]="true" 
+                [(value)]="headCell">
+                </statistics-cell>
+            </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of rows">
+                <td>
+                    <statistics-cell 
+                    [isReadonly]="true" 
+                    [(value)]="row.id">
+                    </statistics-cell>
+                </td>
+                <td *ngFor="let arg of row.args">
+                    <statistics-cell 
+                    [isReadonly]="false" 
+                    [(value)]="arg">
+                    </statistics-cell>
+                </td>
+                <td>
+                    <statistics-cell 
+                    [isReadonly]="false" 
+                    [(value)]="row.result">
+                    </statistics-cell>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
