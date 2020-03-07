@@ -10,6 +10,8 @@ import { StatisticsCellComponent } from './statistics-table/statistics-cell/stat
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.component';
 
+import { ModelSerializationService } from '@services/model-serialization.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,7 @@ import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.compo
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ModelSerializationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
