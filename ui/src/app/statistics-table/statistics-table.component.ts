@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Row } from '@models/statistics/row';
 
 @Component({
@@ -6,22 +6,29 @@ import { Row } from '@models/statistics/row';
   templateUrl: './statistics-table.component.html',
   styleUrls: ['./statistics-table.component.scss']
 })
-export class StatisticsTableComponent implements OnInit {
-  @Input() rows: Row[];
-
-  constructor() { }
-
-  ngOnInit() {
+export class StatisticsTableComponent {
+  @Input()
+  get rows() {
+    return this._rows;
   }
 
+  @Output() rowsChange = new EventEmitter();
+
+  set rows(rows) {
+    this._rows = rows;
+    this.rowsChange.emit(this._rows);
+  }
+
+  private _rows: Row[];
+
   getHeadingFormat(): string[] {
-    if (this.rows.length == 0)
+    if (this._rows.length == 0)
       return ["#", "X0", "Y"];
     else {
       let header = new Array<string>();
       header.push("#");
 
-      for (let i = 0; i < this.rows[0].args.length; i++) {
+      for (let i = 0; i < this._rows[0].args.length; i++) {
         header.push("X" + i);
       }
 

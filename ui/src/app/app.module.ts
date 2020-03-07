@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { KatexModule } from 'ng-katex';
+
 import { AppComponent } from './app.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ModelTooltipComponent } from './model-tooltip/model-tooltip.component';
@@ -11,6 +13,7 @@ import { StatisticsPageComponent } from './statistics-page/statistics-page.compo
 import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.component';
 
 import { ModelSerializationService } from '@services/model-serialization.service';
+import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +23,13 @@ import { ModelSerializationService } from '@services/model-serialization.service
     StatisticsTableComponent,
     StatisticsCellComponent,
     StatisticsPageComponent,
-    ToolsNavigatorComponent
+    ToolsNavigatorComponent,
+    AnalyticsPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    KatexModule
   ],
   providers: [ModelSerializationService],
   bootstrap: [AppComponent]
