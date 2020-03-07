@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Row } from '@models/statistics/row';
 
 @Component({
   selector: 'root',

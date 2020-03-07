@@ -49,4 +49,28 @@ export class StatisticsPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  appendColumn() {
+    this.rows.forEach(element => {
+      element.args.push(0);
+    });
+  }
+
+  removeColumn() {
+    this.rows.forEach(element => {
+      element.args.pop();
+    });
+  }
+
+  appendRow(): void {
+    this.rows.push({ 
+      id: this.rows.length + 1,
+      args: Array(this.rows[0].args.length).fill(0),
+      result: 0
+    });
+  }
+
+  removeRow(): void {
+    if (this.rows.length > 1)
+      this.rows.pop();
+  }
 }
