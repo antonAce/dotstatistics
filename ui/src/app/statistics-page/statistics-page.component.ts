@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Row } from '@models/statistics/row';
 import { ModelSerializationService } from '@services/model-serialization.service';
@@ -8,7 +8,7 @@ import { ModelSerializationService } from '@services/model-serialization.service
   templateUrl: './statistics-page.component.html',
   styleUrls: ['./statistics-page.component.scss']
 })
-export class StatisticsPageComponent implements OnInit, OnDestroy {
+export class StatisticsPageComponent implements OnInit {
   private rows: Row[];
 
   constructor(private modelSerializer: ModelSerializationService) { }
@@ -43,10 +43,6 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
   }
 
   saveModel(): void {
-    this.modelSerializer.storeModelByRows(this.rows);
-  }
-
-  ngOnDestroy() {
     this.modelSerializer.storeModelByRows(this.rows);
   }
 }

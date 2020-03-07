@@ -18,10 +18,10 @@
                     [(value)]="row.id">
                     </statistics-cell>
                 </td>
-                <td *ngFor="let arg of row.args">
+                <td *ngFor="let arg of row.args; index as i">
                     <statistics-cell 
                     [isReadonly]="false" 
-                    [(value)]="arg">
+                    [(value)]="row.args[i]">
                     </statistics-cell>
                 </td>
                 <td>
