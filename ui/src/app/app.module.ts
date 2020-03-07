@@ -7,6 +7,7 @@ import { TopHeaderComponent } from './top-header/top-header.component';
 import { ModelTooltipComponent } from './model-tooltip/model-tooltip.component';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
 import { StatisticsCellComponent } from './statistics-table/statistics-cell/statistics-cell.component';
+import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { StatisticsCellComponent } from './statistics-table/statistics-cell/stat
     TopHeaderComponent,
     ModelTooltipComponent,
     StatisticsTableComponent,
-    StatisticsCellComponent
+    StatisticsCellComponent,
+    StatisticsPageComponent
   ],
   imports: [
     BrowserModule,
