@@ -6,6 +6,8 @@ import { StatisticsPageComponent } from './statistics-page/statistics-page.compo
 
 const routes: Routes = [
   { path: 'statistics', component: StatisticsPageComponent },
+  { path: 'analytics', component: StatisticsPageComponent },
+  { path: 'plot', component: StatisticsPageComponent },
   { path: '', redirectTo: '/statistics', pathMatch: 'full' },
   { path: '**', redirectTo: '/statistics', pathMatch: 'full' }
 ];
