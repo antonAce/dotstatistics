@@ -18,7 +18,8 @@ export class ModelAnalysisService {
   constructor(private http: HttpClient) {}
 
   calculateRegressionPolynomial(model: RegressionModel): Observable<RegressionPolynomial> {
-    return this.http.post<RegressionPolynomial>(API_SETTINGS.BASE_URL + '/api/processing', model);
+    console.log(model);
+    return this.http.post<RegressionPolynomial>(API_SETTINGS.BASE_URL + '/api/processing?digits=2', model);
   }
 
   calculatePurePolynomial(model: RegressionModel): Observable<Polymonial> {

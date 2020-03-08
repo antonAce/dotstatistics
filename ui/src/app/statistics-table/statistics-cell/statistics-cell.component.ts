@@ -9,13 +9,13 @@ export class StatisticsCellComponent implements OnInit {
   @Input() isReadonly: boolean;
 
   @Input()
-  get value() {
+  get value(): number {
     return this._value;
   }
 
-  @Output() valueChange = new EventEmitter();
+  @Output() valueChange = new EventEmitter<number>();
 
-  set value(val) {
+  set value(val: number) {
     this.onValueChanged(val);
   }
 
@@ -34,11 +34,11 @@ export class StatisticsCellComponent implements OnInit {
   onKeydown(event, cell: HTMLInputElement) {
     if (this.IsInEditMode && event.key === "Enter") {
       this.IsInEditMode = false;
-      this.onValueChanged(cell.value)
+      this.onValueChanged(Number(cell.value))
     }
   }
 
-  onValueChanged(val) {
+  onValueChanged(val: number) {
     this._value = val;
     this.valueChange.emit(this._value);
   }

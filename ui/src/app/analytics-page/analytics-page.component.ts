@@ -36,9 +36,11 @@ export class AnalyticsPageComponent implements OnInit {
         transformedPolynomial += (polymonial.constants[index].value < 0) ? "-" : "+";
 
       if (polymonial.constants[index].power == 0)
-        transformedPolynomial += `${polymonial.constants[index].value}x`;
+        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}`;
+      else if (polymonial.constants[index].power == 1)
+        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x`;
       else
-        transformedPolynomial += `${polymonial.constants[index].value}x^{${polymonial.constants[index].power}}`;
+        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x^{${polymonial.constants[index].power}}`;
     }
 
     return transformedPolynomial;
