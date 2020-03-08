@@ -12,6 +12,7 @@ Supported regression models:
 - ASP.NET Core 3.1;
 - Angular 8;
 - Bootstrap 4.4;
+- KaTeX;
 
 # API Map
 
