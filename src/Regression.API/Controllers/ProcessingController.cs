@@ -26,7 +26,7 @@ namespace Regression.API.Controllers
         }
         
         [HttpPost]
-        public IActionResult ProcessData([FromBody] Statistic statistic)
+        public IActionResult ProcessData([FromBody] Statistic statistic, [FromQuery] int? digits)
         {
             _logger.LogInformation($"[{DateTime.Now}] Params: statistic size: {statistic.Rows.Length}");
 
@@ -38,6 +38,9 @@ namespace Regression.API.Controllers
                         Args = row.Args,
                         Result = row.Result
                     }).ToArray());
+
+                if (digits.HasValue)
+                    poly = poly.Select(number => Math.Round(number, digits.Value)).ToArray();
                 
                 return Ok(new Polynomial { Constants = poly });
             }
