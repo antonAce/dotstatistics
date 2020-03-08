@@ -1,0 +1,11 @@
+.data-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 16px 0px;
+    padding: 15px;
+
+    strong {
+        padding: 15px;
+    }
+}

@@ -21,9 +21,9 @@ export class AnalyticsPageComponent implements OnInit {
               private modelAnalysisService: ModelAnalysisService) { }
 
   ngOnInit() {
-    this.modelAnalysisService.calculatePurePolynomial(this.modelSerializer.getModel()).subscribe((poly) => {
-      this.equation = this.polynomialToKatex(poly);
-    });
+    this.modelAnalysisService.calculatePurePolynomial(this.modelSerializer.getModel()).subscribe(
+      (poly) => this.equation = this.polynomialToKatex(poly),
+      (error) => {});
   }
 
   private polynomialToKatex(polymonial: Polymonial): string {
@@ -37,10 +37,8 @@ export class AnalyticsPageComponent implements OnInit {
 
       if (polymonial.constants[index].power == 0)
         transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}`;
-      else if (polymonial.constants[index].power == 1)
-        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x`;
       else
-        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x^{${polymonial.constants[index].power}}`;
+        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x_{${polymonial.constants[index].power - 1}}`;
     }
 
     return transformedPolynomial;
