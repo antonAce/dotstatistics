@@ -1,8 +1,8 @@
 using System;
-using Regression.BL.Contracts;
-using Regression.BL.DTO;
+using Regression.Calculation.Contracts;
+using Regression.Calculation.DTO;
 
-namespace Regression.BL.Services
+namespace Regression.Calculation.Services
 {
     public class LuEquationEliminationService : IEquationEliminationService
     {

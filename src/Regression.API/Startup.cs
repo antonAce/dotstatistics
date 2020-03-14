@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Regression.BL.Infrastructure;
+using Regression.Calculation.Infrastructure;
+using Regression.BL.Providers;
+using Regression.DB.FileSystem.Providers;
 
 namespace Regression.API
 {
@@ -27,6 +30,8 @@ namespace Regression.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddFileStorageForDatasets(Path.GetFullPath(Configuration["ModelStorage:Path"]));
+            services.AddStorageServicesForDatasets();
             services.AddRegression();
             services.AddControllers();
             services.AddCors();
@@ -38,7 +43,7 @@ namespace Regression.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+                app.UseCors(builder => builder.WithOrigins(Configuration["UI:ProxyUrl"]).AllowAnyHeader().AllowAnyMethod());
             }
             else
             {

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using Regression.BL.Contracts;
-using Regression.BL.Services;
+using Regression.Calculation.Contracts;
+using Regression.Calculation.Services;
 
-namespace Regression.BL.Infrastructure
+namespace Regression.Calculation.Infrastructure
 {
     public static class RegressionServiceProvider
     {

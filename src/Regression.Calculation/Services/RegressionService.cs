@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
+using Regression.Calculation.Contracts;
+using Regression.Calculation.DTO;
 
-using Regression.BL.Contracts;
-using Regression.BL.DTO;
-
-namespace Regression.BL.Services
+namespace Regression.Calculation.Services
 {
     public class RegressionService : IRegressionService
     {

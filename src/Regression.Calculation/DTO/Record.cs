@@ -1,4 +1,4 @@
-namespace Regression.BL.DTO
+namespace Regression.Calculation.DTO
 {
     public class Record
     {

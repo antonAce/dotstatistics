@@ -5,8 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Regression.DB.FileSystem\Regression.DB.FileSystem.csproj" />
       <ProjectReference Include="..\Regression.Domain\Regression.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
     </ItemGroup>
 
 </Project>

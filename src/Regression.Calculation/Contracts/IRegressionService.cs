@@ -1,6 +1,6 @@
-using Regression.BL.DTO;
+using Regression.Calculation.DTO;
 
-namespace Regression.BL.Contracts
+namespace Regression.Calculation.Contracts
 {
     public interface IRegressionService
     {

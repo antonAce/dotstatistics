@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using Regression.API.Models;
-using Regression.BL.Contracts;
-using Regression.BL.DTO;
+using Regression.Calculation.Contracts;
+using Regression.Calculation.DTO;
 
 namespace Regression.API.Controllers
 {

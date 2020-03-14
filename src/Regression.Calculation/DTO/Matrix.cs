@@ -1,6 +1,6 @@
 using System;
 
-namespace Regression.BL.DTO
+namespace Regression.Calculation.DTO
 {
     public class Matrix
     {
@@ -177,42 +177,6 @@ namespace Regression.BL.DTO
                 result = result * matrix;
 
             return result;
-        }
-
-        /// <summary>
-        /// Perform memberwise comparing. Operands Columns and rows ammout must match.
-        /// </summary>
-        /// <param name="leftMatrix">Left operand</param>
-        /// <param name="rightMatrix">Right operand</param>
-        public static bool operator ==(Matrix leftMatrix, Matrix rightMatrix)
-        {
-            if (leftMatrix == null || rightMatrix == null)
-                throw new ArgumentException("Operands cannot be null!");
-            
-            if (leftMatrix.H == rightMatrix.H && leftMatrix.W == rightMatrix.W)
-            {
-                for (int i = 0; i < rightMatrix.H; i++)
-                {
-                    for (int j = 0; j < rightMatrix.W; j++)
-                    {
-                        if (Math.Abs(leftMatrix[i, j] - rightMatrix[i, j]) > Double.Epsilon)
-                            return false;
-                    }
-                }
-                return true;
-            }
-            
-            return false;
-        }
-
-        /// <summary>
-        /// Perform memberwise inverted comparing. Operands Columns and rows ammout must match.
-        /// </summary>
-        /// <param name="leftMatrix">Left operand</param>
-        /// <param name="rightMatrix">Right operand</param>
-        public static bool operator !=(Matrix leftMatrix, Matrix rightMatrix)
-        {
-            return !(leftMatrix == rightMatrix);
         }
 
         /// <summary>

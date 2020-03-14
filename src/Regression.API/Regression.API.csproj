@@ -6,6 +6,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Regression.BL\Regression.BL.csproj" />
+      <ProjectReference Include="..\Regression.Calculation\Regression.Calculation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Storage" />
     </ItemGroup>
 
 
