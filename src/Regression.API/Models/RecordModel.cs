@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace Regression.Calculation.DTO
+namespace Regression.API.Models
 {
-    public class Record
+    public class RecordModel
     {
         public ICollection<double> Inputs { get; set; }
         public double Output { get; set; }

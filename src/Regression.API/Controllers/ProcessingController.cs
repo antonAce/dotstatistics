@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,23 +27,23 @@ namespace Regression.API.Controllers
         }
         
         [HttpPost]
-        public IActionResult ProcessData([FromBody] Statistic statistic, [FromQuery] int? digits)
+        public IActionResult ProcessData([FromBody] DatasetProcessingModel dataset, [FromQuery] int? digits)
         {
-            _logger.LogInformation($"[{DateTime.Now}] Params: statistic size: {statistic.Rows.Length}");
+            _logger.LogInformation($"[{DateTime.Now}] Params: statistic size: {dataset.Records.Count()}");
 
             try
             {
-                double[] poly = _regressionService.CalculateRegression(
-                    statistic.Rows.Select(row => new Record
+                ICollection<double> poly = _regressionService.CalculateRegression(
+                    dataset.Records.Select(row => new Record
                     {
-                        Args = row.Args,
-                        Result = row.Result
+                        Inputs = row.Inputs,
+                        Output = row.Output
                     }).ToArray());
 
                 if (digits.HasValue)
                     poly = poly.Select(number => Math.Round(number, digits.Value)).ToArray();
                 
-                return Ok(new Polynomial { Constants = poly });
+                return Ok(new PolynomialModel { Koeficients = poly });
             }
             catch (ArgumentException e)
             {
