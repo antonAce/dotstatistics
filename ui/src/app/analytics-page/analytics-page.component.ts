@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { KatexOptions } from 'ng-katex';
 
-import { Polymonial } from '@models/analytics/polynomial';
+import { DatasetToRead, DatasetToProcess } from '@models/dataset';
+import { LinearEquation } from '@models/analytics';
 
-import { ModelSerializationService } from '@services/model-serialization.service';
+import { DatasetStorageService } from '@services/dataset-storage.service';
 import { ModelAnalysisService } from '@services/model-analysis.service';
 
 @Component({
-  selector: 'app-analytics-page',
+  selector: 'analytics-page',
   templateUrl: './analytics-page.component.html',
   styleUrls: ['./analytics-page.component.scss']
 })
@@ -17,28 +20,31 @@ export class AnalyticsPageComponent implements OnInit {
     displayMode: true,
   };
 
-  constructor(private modelSerializer: ModelSerializationService,
-              private modelAnalysisService: ModelAnalysisService) { }
+  constructor(private modelAnalysisService: ModelAnalysisService,
+              private datasetStorage: DatasetStorageService,
+              private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.modelAnalysisService.calculatePurePolynomial(this.modelSerializer.getModel()).subscribe(
-      (poly) => this.equation = this.polynomialToKatex(poly),
-      (error) => {});
+    this.datasetStorage.getDatasetById(this.activateRoute.snapshot.params['id']).subscribe((dataset: DatasetToRead) => {
+      this.modelAnalysisService.calculateLinearEquation(<DatasetToProcess>{records:dataset.records}).subscribe(
+        (poly: LinearEquation) => this.equation = this.polynomialToKatex(poly),
+        (error) => {});
+    });
   }
 
-  private polynomialToKatex(polymonial: Polymonial): string {
+  private polynomialToKatex(polymonial: LinearEquation): string {
     let transformedPolynomial = "y =";
 
-    for (let index = 0; index < polymonial.constants.length; index++) {
+    for (let index = 0; index < polymonial.koeficients.length; index++) {
       if (index == 0)
-        transformedPolynomial += (polymonial.constants[index].value < 0) ? "-" : " ";
+        transformedPolynomial += (polymonial.koeficients[index] < 0) ? "-" : " ";
       else
-        transformedPolynomial += (polymonial.constants[index].value < 0) ? "-" : "+";
+        transformedPolynomial += (polymonial.koeficients[index] < 0) ? "-" : "+";
 
-      if (polymonial.constants[index].power == 0)
-        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}`;
+      if (index == 0)
+        transformedPolynomial += `${Math.abs(polymonial.koeficients[index])}`;
       else
-        transformedPolynomial += `${Math.abs(polymonial.constants[index].value)}x_{${polymonial.constants[index].power - 1}}`;
+        transformedPolynomial += `${Math.abs(polymonial.koeficients[index])}x_{${index}}`;
     }
 
     return transformedPolynomial;

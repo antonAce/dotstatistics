@@ -13,10 +13,11 @@ import { StatisticsCellComponent } from './statistics-table/statistics-cell/stat
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.component';
 
-import { ModelSerializationService } from '@services/model-serialization.service';
 import { ModelAnalysisService } from '@services/model-analysis.service';
+import { DatasetStorageService } from '@services/dataset-storage.service';
 
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
+import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AnalyticsPageComponent } from './analytics-page/analytics-page.componen
     StatisticsCellComponent,
     StatisticsPageComponent,
     ToolsNavigatorComponent,
-    AnalyticsPageComponent
+    AnalyticsPageComponent,
+    ModelNotFoundPageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +38,9 @@ import { AnalyticsPageComponent } from './analytics-page/analytics-page.componen
     KatexModule
   ],
   providers: [
-    ModelSerializationService,
-    ModelAnalysisService],
+    ModelAnalysisService,
+    DatasetStorageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

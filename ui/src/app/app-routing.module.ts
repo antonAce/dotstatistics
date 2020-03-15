@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
+import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-found-page.component';
 
 
 const routes: Routes = [
-  { path: 'statistics', component: StatisticsPageComponent },
-  { path: 'analytics', component: AnalyticsPageComponent },
-  { path: 'plot', component: StatisticsPageComponent },
-  { path: '', redirectTo: '/statistics', pathMatch: 'full' },
-  { path: '**', redirectTo: '/statistics', pathMatch: 'full' }
+  { path: ':id', component: StatisticsPageComponent },
+  { path: ':id/analytics', component: AnalyticsPageComponent },
+  { path: ':id/plot', component: StatisticsPageComponent },
+  { path: '**', component: ModelNotFoundPageComponent }
 ];
 
 @NgModule({

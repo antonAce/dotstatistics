@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Row } from '@models/statistics/row';
+import { Row } from '@models/analytics';
 
 @Component({
   selector: 'statistics-table',

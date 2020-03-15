@@ -11,10 +11,7 @@
         <button type="button" class="btn btn-outline-success btn-sm" (click)="appendColumn()">Append column</button>
         <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeColumn()">Remove column</button>
     </div>
-    <div class="btn-group mr-2" role="group">
-        <button type="button" class="btn btn-outline-success btn-sm" (click)="saveModel()">Save model</button>
-    </div>
 </div>
-<statistics-table 
+<statistics-table *ngIf = "rows"
     [(rows)]="rows">
 </statistics-table>
