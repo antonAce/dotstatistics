@@ -6,6 +6,9 @@
 *.sln.docstates
 *.sln
 
+# File storage
+[Ss]torage/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
