@@ -100,5 +100,49 @@ namespace Regression.API.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDataset(Guid id, DatasetToSaveDTO dataset)
+        {
+            _logger.LogInformation($"[{DateTime.Now}] Update dataset #{id}");
+            
+            try
+            {
+                await _datasetService.UpdateDataset(id, dataset);
+                return Ok("Dataset updated successfully!");
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogError($"[{DateTime.Now}] Wrong arguments! Message: {e.Message}; Stacktrace: {e.StackTrace}");
+                return BadRequest($"{e.Message}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"[{DateTime.Now}] General exception! Message: {e.Message}; Stacktrace: {e.StackTrace}");
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DropDataset(Guid id)
+        {
+            _logger.LogInformation($"[{DateTime.Now}] Drop dataset #{id}");
+            
+            try
+            {
+                await _datasetService.DropDatasetById(id);
+                return Ok("Dataset dropped successfully!");
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogError($"[{DateTime.Now}] Wrong arguments! Message: {e.Message}; Stacktrace: {e.StackTrace}");
+                return BadRequest($"{e.Message}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"[{DateTime.Now}] General exception! Message: {e.Message}; Stacktrace: {e.StackTrace}");
+                return StatusCode(500);
+            }
+        }
     }
 }
