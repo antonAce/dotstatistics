@@ -97,6 +97,17 @@ namespace Regression.BL.Services
             });
         }
 
+        public async Task<IEnumerable<DatasetHeader>> ListDatasetsHeadOnly(int limit, int offset)
+        {
+            var datasets = await ListDatasets(limit, offset);
+
+            return datasets.Select(dataset => new DatasetHeader
+            {
+                Id = dataset.Id,
+                Name = dataset.Name
+            });
+        }
+
         public async Task<int> GetCountOfDatasets()
         {
             return await _repository.CountDatasets();

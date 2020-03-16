@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { DatasetToRead, DatasetToSave } from '@models/dataset';
+import { DatasetToRead, DatasetToSave, DatasetHeader } from '@models/dataset';
 
 import { API_SETTINGS } from '@environment/api';
 
@@ -21,16 +21,17 @@ export class DatasetStorageService {
 
   fetchDatasets(limit?: number, offset?: number): Observable<DatasetToRead[]> {
     let params = new HttpParams();
-
-    if (limit !== null) {
-      params.set('limit', String(limit));
-    }
-
-    if (offset !== null) {
-      params.set('offset', String(offset));
-    }
+    this.buildQueryParamsDataFetch(params, limit, offset);
 
     return this.http.get<DatasetToRead[]>(this.apiStorageEndpoint, { params });
+  }
+
+  fetchDatasetHeaders(limit?: number, offset?: number): Observable<DatasetHeader[]> {
+    let params = new HttpParams();
+    params.set('headersOnly', 'true');
+    this.buildQueryParamsDataFetch(params, limit, offset);
+
+    return this.http.get<DatasetHeader[]>(this.apiStorageEndpoint, { params });
   }
 
   getDatasetById(id: string): Observable<DatasetToRead> {
@@ -51,5 +52,15 @@ export class DatasetStorageService {
 
   dropDataset(id: string): Observable<string> {
     return this.http.delete<string>(this.apiStorageEndpoint + "/" + id, this.requestTextOptions);
+  }
+
+  private buildQueryParamsDataFetch(params: HttpParams, limit?: number, offset?: number) {
+    if (limit !== null) {
+      params.set('limit', String(limit));
+    }
+
+    if (offset !== null) {
+      params.set('offset', String(offset));
+    }
   }
 }

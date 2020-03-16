@@ -14,6 +14,7 @@ namespace Regression.BL.Interfaces
         Task<DatasetToReadDTO> GetDatasetById(Guid id);
         Task<DatasetOutputsDTO> GetDatasetOutputsOnly(Guid id);
         Task<IEnumerable<DatasetToReadDTO>> ListDatasets(int limit, int offset);
+        Task<IEnumerable<DatasetHeader>> ListDatasetsHeadOnly(int limit, int offset);
         Task<int> GetCountOfDatasets();
     }
 }

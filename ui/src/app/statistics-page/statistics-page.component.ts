@@ -19,25 +19,29 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
   private rows: Row[];
 
   private datasetStorage$ = new Subscription();
+  private routeChange$ = new Subscription();
 
   constructor(private datasetStorage: DatasetStorageService,
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.datasetId = this.activateRoute.snapshot.params['id'];
-    this.datasetStorage$.add(this.datasetStorage.getDatasetById(this.datasetId).subscribe((dataset: DatasetToRead) => {
-      let i = 0;
-      this.datasetName = dataset.name;
-      this.rows = dataset.records.map(record => <Row> {
-        id: ++i,
-        args: record.inputs,
-        result: record.output
-      });
-    }));
+    this.routeChange$ = this.activateRoute.params.subscribe((params) => {
+      this.datasetId = params['id'];
+      this.datasetStorage$.add(this.datasetStorage.getDatasetById(this.datasetId).subscribe((dataset: DatasetToRead) => {
+        let i = 0;
+        this.datasetName = dataset.name;
+        this.rows = dataset.records.map(record => <Row> {
+          id: ++i,
+          args: record.inputs,
+          result: record.output
+        });
+      }));
+    });
   }
 
   ngOnDestroy() {
     this.datasetStorage$.unsubscribe();
+    this.routeChange$.unsubscribe();
   }
 
   appendColumn() {

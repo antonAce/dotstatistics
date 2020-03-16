@@ -25,7 +25,7 @@ namespace Regression.API.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> ListDatasets([FromQuery] int? limit, [FromQuery] int? offset)
+        public async Task<IActionResult> ListDatasets([FromQuery] int? limit, [FromQuery] int? offset, [FromQuery] bool? headersOnly)
         {
             _logger.LogInformation($"[{DateTime.Now}] List Datasets with limit {limit} and offset {offset}");
 
@@ -33,9 +33,17 @@ namespace Regression.API.Controllers
             {
                 var inputLimit = limit ?? await _datasetService.GetCountOfDatasets();
                 var inputOffset = offset ?? 0;
-                
-                var datasets = await _datasetService.ListDatasets(inputLimit, inputOffset);
-                return Ok(datasets);
+
+                if (headersOnly ?? false)
+                {
+                    var datasetsHeaders = await _datasetService.ListDatasetsHeadOnly(inputLimit, inputOffset);
+                    return Ok(datasetsHeaders);
+                }
+                else
+                {
+                    var datasets = await _datasetService.ListDatasets(inputLimit, inputOffset);
+                    return Ok(datasets);
+                }
             }
             catch (ArgumentException e)
             {

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Subscription } from 'rxjs';
 import { KatexOptions } from 'ng-katex';
 
 import { DatasetToRead, DatasetToProcess } from '@models/dataset';
@@ -14,22 +15,31 @@ import { ModelAnalysisService } from '@services/model-analysis.service';
   templateUrl: './analytics-page.component.html',
   styleUrls: ['./analytics-page.component.scss']
 })
-export class AnalyticsPageComponent implements OnInit {
+export class AnalyticsPageComponent implements OnInit, OnDestroy {
   equation: string;
   options: KatexOptions = {
     displayMode: true,
   };
+
+  private datasetStorage$ = new Subscription();
+  private routeChange$ = new Subscription();
 
   constructor(private modelAnalysisService: ModelAnalysisService,
               private datasetStorage: DatasetStorageService,
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.datasetStorage.getDatasetById(this.activateRoute.snapshot.params['id']).subscribe((dataset: DatasetToRead) => {
-      this.modelAnalysisService.calculateLinearEquation(<DatasetToProcess>{records:dataset.records}).subscribe(
-        (poly: LinearEquation) => this.equation = this.polynomialToKatex(poly),
-        (error) => {});
+    this.routeChange$ = this.activateRoute.params.subscribe((params) => {
+      this.datasetStorage$.add(this.datasetStorage.getDatasetById(params['id']).subscribe((dataset: DatasetToRead) => {
+        this.modelAnalysisService.calculateLinearEquation(<DatasetToProcess>{records:dataset.records}).subscribe(
+          (poly: LinearEquation) => this.equation = this.polynomialToKatex(poly));
+      }));
     });
+  }
+
+  ngOnDestroy() {
+    this.datasetStorage$.unsubscribe();
+    this.routeChange$.unsubscribe();
   }
 
   private polynomialToKatex(polymonial: LinearEquation): string {
