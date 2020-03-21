@@ -1,6 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { KatexModule } from 'ng-katex';
@@ -33,6 +34,8 @@ import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-fou
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     KatexModule

@@ -1,14 +1,26 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ASCM Regression</a>
-    <div class="button-holder">
-        <button type="button" class="btn btn-dark">New</button>
-        <button type="button" class="btn btn-dark">Save</button>
-        <button type="button" class="btn btn-dark">Import</button>
-    </div>
-    <div class="container">
-        <input type="file" name="file" id="file" class="inputfile" />
-        <label for="file">
-            <span>Choose statistics file...</span>
-        </label>
+    <div [ngSwitch]="headerState">
+        <div *ngSwitchCase="0" class="button-holder">
+            <button type="button" class="btn btn-dark" (click)="onNewDatasetCreated()">New</button>
+            <button type="button" class="btn btn-dark" (click)="onDatasetChangesSaved()">Save</button>
+            <button type="button" class="btn btn-dark" (click)="onFileImported()">Import</button>
+
+            <div class="container">
+                <input type="file" name="file" id="file" class="inputfile" />
+                <label for="file">
+                    <span>{{FileImporterMessage}}</span>
+                </label>
+            </div>
+        </div>
+        <div *ngSwitchCase="1" class="dialog-holder">
+            <form [formGroup]="datasetConfirmForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="onDialogConfirmed()">
+                <input type="text" class="form-control" [class.is-valid]="datasetConfirmForm.controls['datasetName'].valid" 
+                    [class.is-invalid]="!datasetConfirmForm.controls['datasetName'].valid && datasetConfirmForm.controls['datasetName'].touched" 
+                    formControlName="datasetName" id="datasetNameInput" placeholder="Name length: 1-25" autocomplete="off">
+                <button type="button" class="btn btn-dark" (click)="onDialogCanceled()">Cancel</button>
+                <button type="submit" class="btn btn-dark" [disabled]="!datasetConfirmForm.valid">Save</button>
+            </form>
+        </div>
     </div>
 </nav>

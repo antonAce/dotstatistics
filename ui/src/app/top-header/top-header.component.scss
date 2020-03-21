@@ -52,6 +52,20 @@
     flex-direction: row;
 }
 
+.dialog-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    input.form-control {
+        width: 220px;
+    }
+
+    .btn {
+        margin-left: 16px;
+    }
+}
+
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;
