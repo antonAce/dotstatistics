@@ -7,6 +7,7 @@ import { Row } from '@models/analytics';
 import { DatasetToRead, DatasetToSave, Record } from '@models/dataset';
 
 import { DatasetStorageService } from '@services/dataset-storage.service';
+import { TooltipMediatorService } from '@services/tooltip-mediator.service';
 
 @Component({
   selector: 'statistics-page',
@@ -20,8 +21,10 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
 
   private datasetStorage$ = new Subscription();
   private routeChange$ = new Subscription();
+  private mediator$ = new Subscription();
 
   constructor(private datasetStorage: DatasetStorageService,
+              private mediator: TooltipMediatorService,
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -37,27 +40,26 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
         });
       }));
     });
+
+    this.mediator$ = this.mediator.datasetSaveChanges.subscribe(() => this.updateDataset(this.rows));
   }
 
   ngOnDestroy() {
     this.datasetStorage$.unsubscribe();
     this.routeChange$.unsubscribe();
+    this.mediator$.unsubscribe();
   }
 
   appendColumn() {
     this.rows.forEach(element => {
       element.args.push(0);
     });
-
-    this.updateDataset(this.rows);
   }
 
   removeColumn() {
     this.rows.forEach(element => {
       element.args.pop();
     });
-
-    this.updateDataset(this.rows);
   }
 
   appendRow() {
@@ -66,15 +68,11 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
       args: Array(this.rows[0].args.length).fill(0),
       result: 0
     });
-
-    this.updateDataset(this.rows);
   }
 
   removeRow() {
     if (this.rows.length > 1)
       this.rows.pop();
-
-    this.updateDataset(this.rows);
   }
 
   private updateDataset(rows: Row[]) {

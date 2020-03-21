@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { TooltipMediatorService } from '@services/tooltip-mediator.service';
 
 @Component({
   selector: 'top-header',
   templateUrl: './top-header.component.html',
   styleUrls: ['./top-header.component.scss']
 })
-export class TopHeaderComponent implements OnInit {
+export class TopHeaderComponent {
   datasetConfirmForm : FormGroup = new FormGroup({ 
     "datasetName": new FormControl("", [Validators.required, Validators.maxLength(25)]),
   });
@@ -22,21 +24,18 @@ export class TopHeaderComponent implements OnInit {
     return this.fileImporterMessage;
   }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private mediator: TooltipMediatorService) { }
 
   onNewDatasetCreated() {
     this.headerState = HeaderState.Dialog;
   }
 
   onDatasetChangesSaved() {
-
+    this.mediator.datasetSaveChanges.emit();
   }
 
   onFileImported() {
-    
+    this.headerState = HeaderState.Dialog;
   }
 
   onDialogCanceled() {
@@ -44,6 +43,7 @@ export class TopHeaderComponent implements OnInit {
   }
 
   onDialogConfirmed() {
+    this.mediator.datasetCreation.emit(this.datasetConfirmForm.controls['datasetName'].value as string);
     this.headerState = HeaderState.Idle;
   }
 }

@@ -16,6 +16,7 @@ import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.compo
 
 import { ModelAnalysisService } from '@services/model-analysis.service';
 import { DatasetStorageService } from '@services/dataset-storage.service';
+import { TooltipMediatorService } from '@services/tooltip-mediator.service';
 
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-found-page.component';
@@ -42,7 +43,8 @@ import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-fou
   ],
   providers: [
     ModelAnalysisService,
-    DatasetStorageService
+    DatasetStorageService,
+    TooltipMediatorService
   ],
   bootstrap: [AppComponent]
 })

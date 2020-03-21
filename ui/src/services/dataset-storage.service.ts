@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { DatasetToRead, DatasetToSave, DatasetHeader } from '@models/dataset';
+import { DatasetToRead, DatasetToSave, DatasetHeader, Record } from '@models/dataset';
 
 import { API_SETTINGS } from '@environment/api';
 
@@ -40,6 +40,18 @@ export class DatasetStorageService {
 
   getDatasetOutputs(id: string): Observable<DatasetToRead> {
     return this.http.get<DatasetToRead>(this.apiStorageEndpoint + "/" + id + "?outputsOnly=true");
+  }
+
+  storeEmptyDataset(name: string): Observable<string> {
+    const records = [{
+      inputs: [0],
+      output: 0
+    } as Record];
+
+    return this.storeDataset({
+      name: name,
+      records: records
+    } as DatasetToSave);
   }
 
   storeDataset(dataset: DatasetToSave): Observable<string> {
