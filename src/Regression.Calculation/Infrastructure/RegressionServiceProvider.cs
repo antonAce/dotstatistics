@@ -10,5 +10,10 @@ namespace Regression.Calculation.Infrastructure
         {
             services.AddSingleton<IRegressionService>(service => new RegressionService(new LuEquationEliminationService()));
         }
+        
+        public static void AddRegressionEstimation(this IServiceCollection services)
+        {
+            services.AddSingleton<IRegressionEstimationService, RegressionEstimationService>();
+        }
     }
 }

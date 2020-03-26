@@ -24,14 +24,17 @@ namespace Regression.API.Controllers
         private readonly ILogger _logger;
         private readonly IDatasetService _datasetService;
         private readonly IRegressionService _regressionService;
+        private readonly IRegressionEstimationService _regressionEstimationService;
 
         public AnalysisController(ILogger<AnalysisController> logger,
                                   IDatasetService datasetService,
-                                  IRegressionService regressionService)
+                                  IRegressionService regressionService,
+                                  IRegressionEstimationService regressionEstimationService)
         {
             _logger = logger;
             _datasetService = datasetService;
             _regressionService = regressionService;
+            _regressionEstimationService = regressionEstimationService;
         }
         
         [HttpGet("{id}/equation")]
@@ -51,6 +54,27 @@ namespace Regression.API.Controllers
                 poly = poly.Select(number => Math.Round(number, digits.Value)).ToArray();
             
             return Ok(new PolynomialModel { Koeficients = poly });
+        }
+        
+        [HttpGet("{id}/estimations")]
+        public async Task<IActionResult> CalculateEquationEstimations(Guid id, [FromQuery] int? digits)
+        {
+            _logger.LogInformation($"[{DateTime.Now}] Calculate estimations for equation of dataset #{id}");
+            var dataset = await _datasetService.GetDatasetById(id);
+
+            var estimations = _regressionEstimationService.CalculateEstimates(
+                dataset.Records.Select(row => new Record
+                {
+                    Inputs = row.Inputs,
+                    Output = row.Output
+                }).ToArray());
+            
+            return Ok(new AccuracyEstimationsModel
+            {
+                DiscreteOutput = dataset.Records.Select(record => record.Output).ToArray(),
+                ApproximationOutputs = estimations.ApproximationOutputs,
+                SquareSumMax = estimations.SquareSumMax
+            });
         }
     }
 }

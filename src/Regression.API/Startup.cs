@@ -33,6 +33,7 @@ namespace Regression.API
             services.AddFileStorageForDatasets(Path.GetFullPath(Configuration["ModelStorage:Path"]));
             services.AddStorageServicesForDatasets();
             services.AddRegression();
+            services.AddRegressionEstimation();
             services.AddControllers();
             services.AddCors();
         }
