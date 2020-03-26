@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Regression.API.Filters
 {
-    public class ProcessingExceptionFilterAttribute: Attribute, IExceptionFilter
+    public class ProcessingExceptionFilterAttribute : Attribute, IExceptionFilter
     {
         private readonly IDictionary<Type, string> _exceptionResponses = new Dictionary<Type, string>
         {
