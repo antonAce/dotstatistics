@@ -71,10 +71,18 @@ namespace Regression.API.Controllers
             
             return Ok(new AccuracyEstimationsModel
             {
-                DiscreteOutput = dataset.Records.Select(record => record.Output).ToArray(),
-                ApproximationOutputs = estimations.ApproximationOutputs,
-                SquareSumMax = estimations.SquareSumMax,
-                Correlation = estimations.Correlation
+                DiscreteOutput = (digits.HasValue) ? 
+                    dataset.Records.Select(record => Math.Round(record.Output, digits.Value)).ToArray() :
+                    dataset.Records.Select(record => record.Output).ToArray(),
+                ApproximationOutputs = (digits.HasValue) ?
+                    estimations.ApproximationOutputs.Select(output => Math.Round(output, digits.Value)).ToArray() :
+                    estimations.ApproximationOutputs,
+                SquareSumMax = (digits.HasValue) ? 
+                    Math.Round(estimations.SquareSumMax, digits.Value) :
+                    estimations.SquareSumMax,
+                Correlation = (digits.HasValue) ? 
+                    Math.Round(estimations.Correlation, digits.Value) :
+                    estimations.Correlation
             });
         }
     }
