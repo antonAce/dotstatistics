@@ -33,12 +33,18 @@ export class StatisticsCellComponent implements OnInit {
 
   onKeydown(event, cell: HTMLInputElement) {
     if (this.IsInEditMode && event.key === "Enter") {
-      this.IsInEditMode = false;
+      this.onValueChanged(Number(cell.value))
+    }
+  }
+
+  onBlur(cell: HTMLInputElement) {
+    if (this.IsInEditMode) {
       this.onValueChanged(Number(cell.value))
     }
   }
 
   onValueChanged(val: number) {
+    this.IsInEditMode = false;
     this._value = val;
     this.valueChange.emit(this._value);
   }
