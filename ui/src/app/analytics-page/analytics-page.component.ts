@@ -7,8 +7,6 @@ import { switchMap } from 'rxjs/operators';
 import { KatexOptions } from 'ng-katex';
 
 import { LinearEquation } from '@models/analytics';
-
-import { DatasetStorageService } from '@services/dataset-storage.service';
 import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 
 @Component({
@@ -25,7 +23,6 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
   private routeChange$ = new Subscription();
 
   constructor(private datasetAnalysisService: DatasetAnalysisService,
-              private datasetStorage: DatasetStorageService,
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -52,7 +49,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
       if (index == 0)
         transformedPolynomial += `${Math.abs(polymonial.koeficients[index])}`;
       else
-        transformedPolynomial += `${Math.abs(polymonial.koeficients[index])}x_{${index}}`;
+        transformedPolynomial += `${Math.abs(polymonial.koeficients[index])}x_{${index - 1}}`;
     }
 
     return transformedPolynomial;
