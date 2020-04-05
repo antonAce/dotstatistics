@@ -14,7 +14,7 @@ import { StatisticsCellComponent } from './statistics-table/statistics-cell/stat
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.component';
 
-import { ModelAnalysisService } from '@services/model-analysis.service';
+import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 import { DatasetStorageService } from '@services/dataset-storage.service';
 import { TooltipMediatorService } from '@services/tooltip-mediator.service';
 
@@ -42,7 +42,7 @@ import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-fou
     KatexModule
   ],
   providers: [
-    ModelAnalysisService,
+    DatasetAnalysisService,
     DatasetStorageService,
     TooltipMediatorService
   ],
