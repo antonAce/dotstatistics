@@ -46,6 +46,20 @@ namespace Regression.Calculation.Services
                     EstimatedOutput = est.Output
                 }).Max(pair => Math.Pow(pair.DiscreteOutput - pair.EstimatedOutput, 2));
 
+            var outputsAvg = records.Select(record => record.Output).Average();
+            var approximatedPairsAvg = approximatedPairs.Select(record => record.Output).Average();
+
+            var outputCov = records
+                .Zip(approximatedPairs, (o, a) => (o.Output - outputsAvg) * (a.Output - approximatedPairsAvg))
+                .Sum();
+
+            var outputDispX = records.Sum(x => Math.Pow(x.Output - outputsAvg, 2));
+            var outputDispY = approximatedPairs.Sum(x => Math.Pow(x.Output - approximatedPairsAvg, 2));
+
+            var outputDispMult = Math.Sqrt(outputDispX * outputDispY);
+            
+            accuracyEstimates.Correlation = outputCov / outputDispMult;
+
             return accuracyEstimates;
         }
     }

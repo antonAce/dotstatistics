@@ -7,5 +7,6 @@ namespace Regression.API.Models
         public ICollection<double> ApproximationOutputs { get; set; }
         public ICollection<double> DiscreteOutput { get; set; }
         public double SquareSumMax { get; set; }
+        public double Correlation { get; set; }
     }
 }

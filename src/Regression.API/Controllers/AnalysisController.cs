@@ -73,7 +73,8 @@ namespace Regression.API.Controllers
             {
                 DiscreteOutput = dataset.Records.Select(record => record.Output).ToArray(),
                 ApproximationOutputs = estimations.ApproximationOutputs,
-                SquareSumMax = estimations.SquareSumMax
+                SquareSumMax = estimations.SquareSumMax,
+                Correlation = estimations.Correlation
             });
         }
     }
