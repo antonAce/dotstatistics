@@ -26,6 +26,9 @@ export class PlotElementComponent implements OnInit {
   }
 
   buildChart() {
+    const discreteColor = "#BF1736";
+    const approxColor = "#0D1440";
+
     this.chartProps = {};
   
     let margin = { top: 30, right: 20, bottom: 30, left: 50 }, 
@@ -62,14 +65,16 @@ export class PlotElementComponent implements OnInit {
   
     svg.append('path')
     .attr('class', 'line line2')
-    .style('stroke', 'red')
+    .style('stroke', discreteColor)
     .style('fill', 'none')
+    .attr("stroke-width", 5)
     .attr('d', discreteLine(this.data));
 
   svg.append('path')
     .attr('class', 'line line1')
-    .style('stroke', 'blue')
+    .style('stroke', approxColor)
     .style('fill', 'none')
+    .attr("stroke-width", 5)
     .attr('d', approxLine(this.data));
   
     svg.append('g')
@@ -80,6 +85,11 @@ export class PlotElementComponent implements OnInit {
     svg.append('g')
       .attr('class', 'y axis')
       .call(yAxis);
+
+    svg.append("circle").attr("cx", 30).attr("cy", 15).attr("r", 6).style("fill", discreteColor);
+    svg.append("circle").attr("cx", 30).attr("cy", 45).attr("r", 6).style("fill", approxColor);
+    svg.append("text").attr("x", 50).attr("y", 15).text("variable A").style("fill", discreteColor).style("font-size", "15px").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 50).attr("y", 45).text("variable B").style("fill", approxColor).style("font-size", "15px").attr("alignment-baseline","middle");
 
     this.chartProps.svg = svg;
     this.chartProps.valueline = discreteLine;
