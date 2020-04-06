@@ -20,6 +20,7 @@ import { TooltipMediatorService } from '@services/tooltip-mediator.service';
 
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-found-page.component';
+import { PlotPageComponent } from './plot-page/plot-page.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-fou
     StatisticsPageComponent,
     ToolsNavigatorComponent,
     AnalyticsPageComponent,
-    ModelNotFoundPageComponent
+    ModelNotFoundPageComponent,
+    PlotPageComponent
   ],
   imports: [
     BrowserModule,
