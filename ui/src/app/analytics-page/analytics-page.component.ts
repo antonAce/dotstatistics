@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { KatexOptions } from 'ng-katex';
 
-import { LinearEquation } from '@models/analytics';
+import { LinearEquation, EquationEstimations, OutputPairs } from '@models/analytics';
 import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 
 @Component({
@@ -16,6 +16,9 @@ import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 })
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   equation: string;
+  estimations: EquationEstimations;
+  pairs: OutputPairs[];
+
   options: KatexOptions = {
     displayMode: true,
   };
@@ -26,11 +29,22 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.routeChange$ = this.activateRoute.params.pipe(
+    this.routeChange$.add(this.activateRoute.params.pipe(
       switchMap(params => this.datasetAnalysisService.calculateEquation(params['id']))
+    ).subscribe((equation: LinearEquation) => this.equation = this.polynomialToKatex(equation)));
+
+    this.routeChange$.add(this.activateRoute.params.pipe(
+      switchMap(params => this.datasetAnalysisService.calculateEstimations(params['id']))
     ).subscribe(
-      (equation: LinearEquation) => this.equation = this.polynomialToKatex(equation)
-    );
+      (estimations: EquationEstimations) => {
+        this.estimations = estimations;
+        this.pairs = estimations.discreteOutput.map((y, i) => {
+          return {
+            discrete: y,
+            approximate: estimations.approximationOutputs[i]
+          } as OutputPairs
+        });
+    }));
   }
 
   ngOnDestroy() {

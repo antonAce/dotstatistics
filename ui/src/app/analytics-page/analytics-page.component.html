@@ -7,3 +7,21 @@
     <div *ngIf="!equation" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
     <ng-katex *ngIf="equation" [equation]="equation" [options]="options"></ng-katex>
 </div>
+<div class="data-bar">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Y0</th>
+                    <th scope="col">Y1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pair of pairs">
+                    <td>{{pair.discrete}}</td>
+                    <td>{{pair.approximate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

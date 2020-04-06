@@ -9,3 +9,13 @@
         padding: 15px;
     }
 }
+
+.table-responsive {
+    overflow-y: scroll;
+    height: 300px;
+
+    table {
+        table-layout: fixed;
+        overflow-y: auto;
+    }
+}
