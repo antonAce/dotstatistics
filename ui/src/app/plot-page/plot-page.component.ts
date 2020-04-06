@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Subscription, forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
-import { EquationEstimations, OutputPairs, ComparingPairs } from '@models/analytics';
+import { ComparingPairs } from '@models/analytics';
+
+import { DatasetStorageService } from '@services/dataset-storage.service';
 import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 
 @Component({
@@ -13,41 +15,28 @@ import { DatasetAnalysisService } from '@services/dataset-analysis.service';
   styleUrls: ['./plot-page.component.scss']
 })
 export class PlotPageComponent implements OnInit, OnDestroy {
-  pairs: OutputPairs[];
-
-  comparingPairs: ComparingPairs[] = [{
-    argument: 0,
-    discrete: 1,
-    approximate: 2
-  },
-  {
-    argument: 1,
-    discrete: 2,
-    approximate: 3
-  },
-  {
-    argument: 2,
-    discrete: 3,
-    approximate: 4
-  }];
+  comparingPairs: ComparingPairs[];
 
   private routeChange$ = new Subscription();
 
-  constructor(private datasetAnalysisService: DatasetAnalysisService,
+  constructor(private datasetStorageService: DatasetStorageService,
+              private datasetAnalysisService: DatasetAnalysisService,
               private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.routeChange$.add(this.activateRoute.params.pipe(
-      switchMap(params => this.datasetAnalysisService.calculateEstimations(params['id']))
-    ).subscribe(
-      (estimations: EquationEstimations) => {
-        this.pairs = estimations.discreteOutput.map((y, i) => {
-          return {
-            discrete: y,
-            approximate: estimations.approximationOutputs[i]
-          } as OutputPairs
-        });
-    }));
+    this.routeChange$ = this.activateRoute.params.pipe(
+      switchMap(params => forkJoin(
+        this.datasetStorageService.getDatasetById(params['id']),
+        this.datasetAnalysisService.calculateEstimations(params['id'])
+      )),
+      map(results => results[0].records.map((record, i) => {
+        return {
+          argument: record.inputs[0],
+          discrete: results[1].discreteOutput[i],
+          approximate: results[1].approximationOutputs[i]
+        } as ComparingPairs;
+      }))
+    ).subscribe((pairs) => this.comparingPairs = pairs.sort((a, b) => a.approximate < b.approximate ? -1 : a.approximate > b.approximate ? 1 : 0));
   }
 
   ngOnDestroy() {
