@@ -25,7 +25,7 @@ namespace Regression.Calculation.Services
             {
                 double output = 0.0;
                 
-                for (int i = 1; i < record.Inputs.Count; i++)
+                for (int i = 1; i <= record.Inputs.Count; i++)
                     output += record.Inputs.ElementAt(i - 1) * polynomial.ElementAt(i);
 
                 return new Record
