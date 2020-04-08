@@ -23,6 +23,8 @@ export class PlotPageComponent implements OnInit, OnDestroy {
               private datasetAnalysisService: DatasetAnalysisService,
               private activateRoute: ActivatedRoute) { }
 
+  avg = (numbers: number[]) => (numbers.reduce((a,b) => a + b, 0)) / numbers.length;
+
   ngOnInit() {
     this.routeChange$ = this.activateRoute.params.pipe(
       switchMap(params => forkJoin(
@@ -36,7 +38,7 @@ export class PlotPageComponent implements OnInit, OnDestroy {
           approximate: results[1].approximationOutputs[i]
         } as ComparingPairs;
       }))
-    ).subscribe((pairs) => this.comparingPairs = pairs.sort((a, b) => a.approximate < b.approximate ? -1 : a.approximate > b.approximate ? 1 : 0));
+    ).subscribe((pairs) => this.comparingPairs = pairs.sort((a, b) => a.argument < b.argument ? -1 : a.argument > b.argument ? 1 : 0));
   }
 
   ngOnDestroy() {
