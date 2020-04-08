@@ -2,19 +2,20 @@
     <h1 class="h2">Model analytics</h1>
     <tools-navigator></tools-navigator>
 </div>
+<div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{errorMessage}}</div>
 <div class="data-bar">
     <strong>Regression equation</strong>
-    <div *ngIf="!equation" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
+    <div *ngIf="!equation && !errorMessage" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
     <ng-katex *ngIf="equation" [equation]="equation" [options]="options"></ng-katex>
 </div>
 <div class="data-bar">
     <strong>Error sum</strong>
-    <div *ngIf="!estimations" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
+    <div *ngIf="!estimations && !errorMessage" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
     <span *ngIf="estimations">{{estimations.squareSumMax}}</span>
 </div>
 <div class="data-bar">
     <strong>Correlation koefficient</strong>
-    <div *ngIf="!estimations" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
+    <div *ngIf="!estimations && !errorMessage" class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>
     <span *ngIf="estimations">{{estimations.correlation}}</span>
 </div>
 <div class="data-bar">
