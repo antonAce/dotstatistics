@@ -66,6 +66,7 @@ export class PlotElementComponent implements OnInit {
     svg.append('path')
     .attr('class', 'line line2')
     .style('stroke', discreteColor)
+    .style('stroke-dasharray', '5,5')
     .style('fill', 'none')
     .attr("stroke-width", 5)
     .attr('d', discreteLine(this.data));
@@ -73,6 +74,7 @@ export class PlotElementComponent implements OnInit {
   svg.append('path')
     .attr('class', 'line line1')
     .style('stroke', approxColor)
+    .style('stroke-dasharray', '5,5')
     .style('fill', 'none')
     .attr("stroke-width", 5)
     .attr('d', approxLine(this.data));
