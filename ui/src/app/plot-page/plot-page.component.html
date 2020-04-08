@@ -4,3 +4,4 @@
 </div>
 <plot-element *ngIf="comparingPairs" [data]="comparingPairs" [width]="1000" [height]="500">
 </plot-element>
+<div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{errorMessage}}</div>

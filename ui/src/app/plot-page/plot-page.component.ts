@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Subscription, forkJoin } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
@@ -16,6 +17,7 @@ import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 })
 export class PlotPageComponent implements OnInit, OnDestroy {
   comparingPairs: ComparingPairs[];
+  errorMessage: string = null;
 
   private routeChange$ = new Subscription();
 
@@ -38,7 +40,22 @@ export class PlotPageComponent implements OnInit, OnDestroy {
           approximate: results[1].approximationOutputs[i]
         } as ComparingPairs;
       }))
-    ).subscribe((pairs) => this.comparingPairs = pairs.sort((a, b) => a.argument < b.argument ? -1 : a.argument > b.argument ? 1 : 0));
+    ).subscribe(
+      (pairs) => this.fillPairs(pairs),
+      (error: HttpErrorResponse) => this.handleError(error)
+    );
+  }
+
+  private fillPairs(pairs: ComparingPairs[]) {
+    this.comparingPairs = pairs.sort((a, b) => a.argument < b.argument ? -1 : a.argument > b.argument ? 1 : 0);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status == 400) {
+      this.errorMessage = `Cannot visualise plot: ${error.error}`
+    } else {
+      this.errorMessage = "Oops! Something went wrong on server side!"
+    }
   }
 
   ngOnDestroy() {
