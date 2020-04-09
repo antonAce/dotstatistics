@@ -65,10 +65,12 @@ export class TopHeaderComponent implements OnDestroy {
   }
 
   onDialogConfirmed() {
+    const datasetName = this.datasetConfirmForm.controls['datasetName'].value as string;
+
     if (this.headerState == HeaderState.Dialog) {
-      this.mediator.datasetCreation.emit(this.datasetConfirmForm.controls['datasetName'].value as string);
+      this.mediator.datasetCreation.emit(datasetName);
     } else if (this.headerState == HeaderState.FileImport) {
-      this.fileUpload$ = this.fileUploader.uploadFile(this.uploadedFile)
+      this.fileUpload$ = this.fileUploader.uploadFile(datasetName, this.uploadedFile)
         .subscribe(
           (value) => this.mediator.fileUploaded.emit(value)
         );
