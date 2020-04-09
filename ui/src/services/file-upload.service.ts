@@ -11,10 +11,11 @@ import { API_SETTINGS } from '@environment/api';
 export class FileUploadService {
   private readonly apiFileUploadEndpoint: string = API_SETTINGS.BASE_URL + "/api/fileUpload";
 
-  private readonly fileUploadHeader = {
+  private readonly fileUploadHeader: Object = {
       headers: new HttpHeaders({
           'enctype':  'multipart/form-data',
-      })
+      }),
+      responseType: 'text'
   };
 
   constructor(private http: HttpClient) {}
