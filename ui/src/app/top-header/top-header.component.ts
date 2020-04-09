@@ -16,6 +16,8 @@ export class TopHeaderComponent {
   private headerState: HeaderState = HeaderState.Idle;
   private fileImporterMessage: string = "Choose data file...";
 
+  private uploadedFile: any = null;
+
   get HeaderState(): HeaderState {
     return this.headerState;
   }
@@ -40,6 +42,13 @@ export class TopHeaderComponent {
 
   onDialogCanceled() {
     this.headerState = HeaderState.Idle;
+  }
+
+  onFileUploaded(event: any) {
+    if (event.target.files.length > 0) {
+      this.uploadedFile = event.target.files[0];
+      this.fileImporterMessage = this.uploadedFile.name;
+    }
   }
 
   onDialogConfirmed() {

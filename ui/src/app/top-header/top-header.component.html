@@ -7,7 +7,8 @@
             <button type="button" class="btn btn-dark" (click)="onFileImported()">Import</button>
 
             <div class="container">
-                <input type="file" name="file" id="file" class="inputfile" />
+                <input type="file" name="file" id="file" 
+                       class="inputfile" (change)="onFileUploaded($event)"/>
                 <label for="file">
                     <span>{{FileImporterMessage}}</span>
                 </label>
