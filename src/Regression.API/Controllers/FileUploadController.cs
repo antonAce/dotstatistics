@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using Regression.API.Interfaces;
+using Regression.BL.Interfaces;
 
 namespace Regression.API.Controllers
 {
@@ -19,12 +20,15 @@ namespace Regression.API.Controllers
     {
         private readonly ILogger _logger;
         private readonly IFileParser _fileParser;
+        private readonly IDatasetParser _datasetParser;
 
         public FileUploadController(ILogger<FileUploadController> logger,
+                                    IDatasetParser datasetParser,
                                     IFileParser fileParser)
         {
             _logger = logger;
             _fileParser = fileParser;
+            _datasetParser = datasetParser;
         }
         
         [HttpPost]
@@ -35,7 +39,8 @@ namespace Regression.API.Controllers
             try
             {
                 var result = await _fileParser.GetStringAsync(file);
-                return Ok(result);
+                var dataset = _datasetParser.FromString(name, result);
+                return Ok(dataset);
             }
             catch (ArgumentException exception)
             {

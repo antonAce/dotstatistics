@@ -9,6 +9,7 @@ namespace Regression.BL.Providers
     {
         public static void AddStorageServicesForDatasets(this IServiceCollection services)
         {
+            services.AddTransient<IDatasetParser, DatasetParser>();
             services.AddScoped<IDatasetService, DatasetService>();
         }
     }
