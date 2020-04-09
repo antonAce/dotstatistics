@@ -28,14 +28,14 @@ namespace Regression.API.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> StoreUploadedFile([FromForm] IFormFile file)
+        public async Task<IActionResult> StoreUploadedFile([FromForm] string name, [FromForm] IFormFile file)
         {
             _logger.LogInformation($"[{DateTime.Now}] POST: Upload file");
 
             try
             {
-                var bytes = await _fileParser.GetBytesAsync(file);
-                return Ok(bytes);
+                var result = await _fileParser.GetStringAsync(file);
+                return Ok(result);
             }
             catch (ArgumentException exception)
             {

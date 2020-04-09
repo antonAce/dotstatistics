@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,12 @@ namespace Regression.API.Helpers
                 await file.CopyToAsync(ms);
                 return ms.ToArray();
             }
+        }
+
+        public async Task<string> GetStringAsync(IFormFile file)
+        {
+            var bytes = await GetBytesAsync(file);
+            return Encoding.UTF8.GetString(bytes);
         }
     }
 }
