@@ -21,26 +21,29 @@ namespace Regression.API.Controllers
         private readonly ILogger _logger;
         private readonly IFileParser _fileParser;
         private readonly IDatasetParser _datasetParser;
+        private readonly IDatasetService _datasetService;
 
         public FileUploadController(ILogger<FileUploadController> logger,
+                                    IDatasetService datasetService,
                                     IDatasetParser datasetParser,
                                     IFileParser fileParser)
         {
             _logger = logger;
             _fileParser = fileParser;
             _datasetParser = datasetParser;
+            _datasetService = datasetService;
         }
         
         [HttpPost]
-        public async Task<IActionResult> StoreUploadedFile([FromForm] string name, [FromForm] IFormFile file)
+        public async Task<IActionResult> StoreDatasetFromFile([FromForm] string name, [FromForm] IFormFile file)
         {
             _logger.LogInformation($"[{DateTime.Now}] POST: Upload file");
 
             try
             {
                 var result = await _fileParser.GetStringAsync(file);
-                var dataset = _datasetParser.FromString(name, result);
-                return Ok(dataset);
+                await _datasetService.StoreDataset(_datasetParser.FromString(name, result));
+                return Ok("Dataset imported successfully!");
             }
             catch (ArgumentException exception)
             {
