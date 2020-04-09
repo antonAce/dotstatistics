@@ -25,6 +25,7 @@ Dataset storing providers:
 - Bootstrap 4.4;
 - NG KaTeX 2;
 - RXJS 6;
+- D3JS;
 
 ## API Map
 
@@ -95,4 +96,16 @@ Content-Type application/json
     },
     ...]
 }
+```
+
+### Uploading CSV
+
+Store dataset from file
+
+```http
+POST api/fileUpload
+enctype multipart/form-data
+
+name = (:string:)
+file = (:IFormFile:)
 ```
