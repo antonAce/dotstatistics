@@ -17,6 +17,7 @@ import { ToolsNavigatorComponent } from './tools-navigator/tools-navigator.compo
 import { DatasetAnalysisService } from '@services/dataset-analysis.service';
 import { DatasetStorageService } from '@services/dataset-storage.service';
 import { TooltipMediatorService } from '@services/tooltip-mediator.service';
+import { FileUploadService } from '@services/file-upload.service';
 
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 import { ModelNotFoundPageComponent } from './model-not-found-page/model-not-found-page.component';
@@ -48,7 +49,8 @@ import { PlotElementComponent } from './plot-page/plot-element/plot-element.comp
   providers: [
     DatasetAnalysisService,
     DatasetStorageService,
-    TooltipMediatorService
+    TooltipMediatorService,
+    FileUploadService
   ],
   bootstrap: [AppComponent]
 })

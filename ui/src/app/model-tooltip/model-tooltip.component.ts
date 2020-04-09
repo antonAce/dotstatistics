@@ -25,12 +25,19 @@ export class ModelTooltipComponent implements OnInit, OnDestroy {
     this.datasetStorage.fetchDatasetHeaders().toPromise().then((dataset: DatasetHeader[]) => {
       this.datasetHeaders = dataset;
     });
-    this.mediator$ = this.mediator.datasetCreation.pipe(
+
+    this.mediator$ = this.mediator$.add(this.mediator.datasetCreation.pipe(
       switchMap((name) => this.datasetStorage.storeEmptyDataset(name)),
       switchMap(() => this.datasetStorage.fetchDatasetHeaders())
     ).subscribe((dataset: DatasetHeader[]) => {
       this.datasetHeaders = dataset;
-    });
+    }));
+
+    this.mediator$ = this.mediator$.add(this.mediator.fileUploaded.pipe(
+      switchMap(() => this.datasetStorage.fetchDatasetHeaders())
+    ).subscribe((dataset: DatasetHeader[]) => {
+      this.datasetHeaders = dataset;
+    }));
   }
 
   ngOnDestroy() {

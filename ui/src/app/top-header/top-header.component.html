@@ -4,7 +4,7 @@
         <div *ngSwitchCase="0" class="button-holder">
             <button type="button" class="btn btn-dark" (click)="onNewDatasetCreated()">New</button>
             <button type="button" class="btn btn-dark" (click)="onDatasetChangesSaved()">Save</button>
-            <button type="button" class="btn btn-dark" (click)="onFileImported()">Import</button>
+            <button type="button" class="btn btn-dark" (click)="onFileImported()" [disabled]="!uploadedFile">Import</button>
 
             <div class="container">
                 <input type="file" name="file" id="file" 
@@ -15,6 +15,15 @@
             </div>
         </div>
         <div *ngSwitchCase="1" class="dialog-holder">
+            <form [formGroup]="datasetConfirmForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="onDialogConfirmed()">
+                <input type="text" class="form-control" [class.is-valid]="datasetConfirmForm.controls['datasetName'].valid" 
+                    [class.is-invalid]="!datasetConfirmForm.controls['datasetName'].valid && datasetConfirmForm.controls['datasetName'].touched" 
+                    formControlName="datasetName" id="datasetNameInput" placeholder="Name length: 1-25" autocomplete="off">
+                <button type="button" class="btn btn-dark" (click)="onDialogCanceled()">Cancel</button>
+                <button type="submit" class="btn btn-dark" [disabled]="!datasetConfirmForm.valid">Save</button>
+            </form>
+        </div>
+        <div *ngSwitchCase="2" class="dialog-holder">
             <form [formGroup]="datasetConfirmForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="onDialogConfirmed()">
                 <input type="text" class="form-control" [class.is-valid]="datasetConfirmForm.controls['datasetName'].valid" 
                     [class.is-invalid]="!datasetConfirmForm.controls['datasetName'].valid && datasetConfirmForm.controls['datasetName'].touched" 

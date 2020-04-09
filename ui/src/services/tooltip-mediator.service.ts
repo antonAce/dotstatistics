@@ -12,6 +12,11 @@ export class TooltipMediatorService {
     return this.datasetSaveChangesEvent;
   }
 
+  get fileUploaded() {
+    return this.fileUploadedEvent;
+  }
+
   private datasetCreationEvent: EventEmitter<string> = new EventEmitter<string>();
+  private fileUploadedEvent: EventEmitter<string> = new EventEmitter<string>();
   private datasetSaveChangesEvent: EventEmitter<void> = new EventEmitter<void>();
 }
