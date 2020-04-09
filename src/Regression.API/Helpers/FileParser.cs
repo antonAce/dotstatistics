@@ -14,7 +14,7 @@ namespace Regression.API.Helpers
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File is empty!");
-            else if (Path.GetExtension(file.FileName) != "csv")
+            else if (Path.GetExtension(file.FileName) != ".csv")
                 throw new ArgumentException("Wrong file format!");
             else
             {
