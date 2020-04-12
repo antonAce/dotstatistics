@@ -44,6 +44,10 @@ export class TopHeaderComponent implements OnDestroy {
     this.mediator.datasetSaveChanges.emit();
   }
 
+  onDatasetDroped() {
+    
+  }
+
   onFileImported() {
     this.headerState = HeaderState.FileImport;
   }
