@@ -12,6 +12,10 @@ export class TooltipMediatorService {
     return this.datasetSaveChangesEvent;
   }
 
+  get datasetDrop() {
+    return this.datasetDropEvent;
+  }
+
   get fileUploaded() {
     return this.fileUploadedEvent;
   }
@@ -19,4 +23,5 @@ export class TooltipMediatorService {
   private datasetCreationEvent: EventEmitter<string> = new EventEmitter<string>();
   private fileUploadedEvent: EventEmitter<string> = new EventEmitter<string>();
   private datasetSaveChangesEvent: EventEmitter<void> = new EventEmitter<void>();
+  private datasetDropEvent: EventEmitter<void> = new EventEmitter<void>();
 }

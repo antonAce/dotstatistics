@@ -45,7 +45,7 @@ export class TopHeaderComponent implements OnDestroy {
   }
 
   onDatasetDroped() {
-    
+    this.mediator.datasetDrop.emit();
   }
 
   onFileImported() {
