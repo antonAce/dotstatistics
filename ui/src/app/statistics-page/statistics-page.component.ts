@@ -16,9 +16,9 @@ import { TooltipMediatorService } from '@services/tooltip-mediator.service';
   styleUrls: ['./statistics-page.component.scss']
 })
 export class StatisticsPageComponent implements OnInit, OnDestroy {
+  rows: Row[];
   private datasetId: string
   private datasetName: string;
-  private rows: Row[];
 
   private datasetStorage$ = new Subscription();
   private routeChange$ = new Subscription();

@@ -33,6 +33,10 @@ export class TopHeaderComponent implements OnDestroy {
     return this.fileImporterMessage;
   }
 
+  get UploadedFile(): any {
+    return this.uploadedFile
+  }
+
   constructor(private mediator: TooltipMediatorService,
               private fileUploader: FileUploadService) { }
 
