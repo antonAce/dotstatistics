@@ -17,6 +17,7 @@ export class ModelTooltipComponent implements OnInit, OnDestroy {
   datasetHeaders: DatasetHeader[];
 
   private mediator$ = new Subscription();
+  private routeChange$ = new Subscription();
 
   constructor(private datasetStorage: DatasetStorageService,
               private mediator: TooltipMediatorService) {}
@@ -42,5 +43,6 @@ export class ModelTooltipComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.mediator$.unsubscribe();
+    this.routeChange$.unsubscribe();
   }
 }

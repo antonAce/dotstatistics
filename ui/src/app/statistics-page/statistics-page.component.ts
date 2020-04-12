@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Row } from '@models/analytics';
 import { DatasetToRead, DatasetToSave, Record } from '@models/dataset';
@@ -23,7 +24,8 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
   private routeChange$ = new Subscription();
   private mediator$ = new Subscription();
 
-  constructor(private datasetStorage: DatasetStorageService,
+  constructor(private router: Router,
+              private datasetStorage: DatasetStorageService,
               private mediator: TooltipMediatorService,
               private activateRoute: ActivatedRoute) { }
 
@@ -40,6 +42,13 @@ export class StatisticsPageComponent implements OnInit, OnDestroy {
         });
       }));
     });
+
+    this.mediator$ = this.mediator$.add(this.mediator.datasetDrop.pipe(
+      switchMap(() => this.datasetStorage.dropDataset(this.datasetId))
+    ).subscribe(() => {
+      this.router.navigate(['']);
+      this.mediator.fileUploaded.emit();
+    }));
 
     this.mediator$ = this.mediator.datasetSaveChanges.subscribe(() => this.updateDataset(this.rows));
   }
