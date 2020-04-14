@@ -8,20 +8,18 @@ import { Row } from '@models/analytics';
 })
 export class StatisticsTableComponent {
   @Input()
-  get rows() {
-    return this._rows;
-  }
-
-  @Output() rowsChange = new EventEmitter();
-
   set rows(rows) {
     this._rows = rows;
     this.rowsChange.emit(this._rows);
   }
 
-  private _rows: Row[];
+  @Output() rowsChange = new EventEmitter();
 
-  getHeadingFormat(): string[] {
+  get rows() {
+    return this._rows;
+  }
+
+  get heading(): string[] {
     if (this._rows.length == 0)
       return ["#", "X0", "Y"];
     else {
@@ -36,4 +34,6 @@ export class StatisticsTableComponent {
       return header;
     }
   }
+
+  private _rows: Row[];
 }

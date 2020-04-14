@@ -9,18 +9,22 @@ export class StatisticsCellComponent implements OnInit {
   @Input() isReadonly: boolean;
 
   @Input()
-  get value(): number {
-    return this._value;
-  }
-
-  @Output() valueChange = new EventEmitter<number>();
-
   set value(val: number) {
     this.onValueChanged(val);
   }
 
+  @Output() valueChange = new EventEmitter<number>();
+
+  get value(): number {
+    return this._value;
+  }
+
+  get IsInEditMode(): boolean {
+    return this.isInEditMode;
+  }
+
   private _value: number;
-  private IsInEditMode: boolean = false;
+  private isInEditMode: boolean = false;
 
   constructor() { }
 
@@ -28,23 +32,23 @@ export class StatisticsCellComponent implements OnInit {
   }
 
   @HostListener("dblclick") onDoubleClick() {
-    if (!this.IsInEditMode && !this.isReadonly) this.IsInEditMode = true;
+    if (!this.isInEditMode && !this.isReadonly) this.isInEditMode = true;
   }
 
   onKeydown(event, cell: HTMLInputElement) {
-    if (this.IsInEditMode && event.key === "Enter") {
+    if (this.isInEditMode && event.key === "Enter") {
       this.onValueChanged(Number(cell.value))
     }
   }
 
   onBlur(cell: HTMLInputElement) {
-    if (this.IsInEditMode) {
+    if (this.isInEditMode) {
       this.onValueChanged(Number(cell.value))
     }
   }
 
   onValueChanged(val: number) {
-    this.IsInEditMode = false;
+    this.isInEditMode = false;
     this._value = val;
     this.valueChange.emit(this._value);
   }
