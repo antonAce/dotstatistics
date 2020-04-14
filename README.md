@@ -1,6 +1,7 @@
 # Regression.NET
 
-![Documentation](https://img.shields.io/github/languages/top/antonAce/Regression.NET)
+![Documentation](https://img.shields.io/github/languages/code-size/antonAce/Regression.NET)
+![Documentation](https://img.shields.io/github/languages/count/antonAce/Regression.NET)
 
 ASP.NET Core + Angular application for processing datasets using regression modeling methods.
 
