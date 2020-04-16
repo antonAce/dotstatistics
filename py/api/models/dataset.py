@@ -1,4 +1,4 @@
-class Record:
+class RecordDTO:
     def __init__(self, inputs: list, output: float):
         self.inputs = inputs
         self.output = output

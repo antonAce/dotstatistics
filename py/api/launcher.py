@@ -1,18 +1,24 @@
 import os
+import uuid
 import jsonpickle as jp
 
 from flask import Flask, request, render_template, url_for
 from flask_cors import CORS, cross_origin
 
 from api.settings.settings import IS_IN_DEBUG_MODE, API_PORT, API_SECRET, DEPLOY_LINK
-from api.models.dataset import DatasetHeader, DatasetToRead, Record
+from api.models.dataset import DatasetHeader, DatasetToRead, RecordDTO
 from api.models.analytics import Polynomial, AccuracyEstimations
+
+from dal.repositories.repository import DatasetRepository
+from dal.models.dataset import Dataset
 
 app = Flask(__name__)
 app.secret_key = API_SECRET
 
 CORS(app, resources={r"/api/*": {"origins": DEPLOY_LINK}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+dataset_repository = DatasetRepository()
 
 
 def none_query_helper(_input, none_to_val):
@@ -46,19 +52,33 @@ def guid_plot(guid):
 @cross_origin()
 def list_datasets():
     if request.method == 'POST':
+        obj = jp.decode(str(request.json).replace("'", '"'))
+        records = []
+
+        for record in obj["Records"]:
+            records = RecordDTO(record["Inputs"], record["Output"])
+
+        dataset_repository.insert_new_dataset(Dataset(str(uuid.uuid4()), obj["Name"]))
         return "Dataset stored successfully!"
     else:
         limit_val = none_query_helper(request.args.get('limit'), 25)
         offset_val = none_query_helper(request.args.get('offset'), 0)
         headers_only_val = none_query_helper(request.args.get('headersOnly'), False)
 
-        if headers_only_val:
-            mock = [DatasetHeader("5f4cbe15-326e-4c4a-a450-db18de495fd0", "test-import"),
-                    DatasetHeader("4c7c6b7d-0dd1-4748-920e-8b951fdcbe1f", "2019-Finantial-Support")]
-        else:
-            mock = [DatasetToRead("5f4cbe15-326e-4c4a-a450-db18de495fd0", "test-import", [Record([0.0, 0.0], 0)])]
+        datasets_db = dataset_repository.get_all()
 
-        return str(jp.encode(mock, unpicklable=False))
+        dataset_dto = []
+
+        if headers_only_val:
+            for item in datasets_db:
+                dataset_dto.append(DatasetHeader(str(item.Id), str(item.Name)))
+
+            return str(jp.encode(dataset_dto, unpicklable=False))
+        else:
+            for item in datasets_db:
+                dataset_dto.append(DatasetToRead(str(item.Id), str(item.Name), [RecordDTO([0.0, 0.0], 0)]))
+
+            return str(jp.encode(dataset_dto, unpicklable=False))
 
 
 @app.route('/api/dataset/<guid>', methods=['GET', 'PUT', 'DELETE'])
@@ -67,10 +87,13 @@ def get_dataset_by_id(guid):
     if request.method == 'PUT':
         return "Dataset updated successfully!"
     elif request.method == 'DELETE':
+        dataset_repository.delete_dataset(guid)
         return "Dataset deleted successfully!"
     else:
         outputs_only_val = none_query_helper(request.args.get('outputsOnly'), False)
-        mock = DatasetToRead(guid, "test-import", [Record([0.0, 0.0], 0)])
+
+        dataset = dataset_repository.get_dataset_by_id(guid)
+        mock = DatasetToRead(dataset.Id, dataset.Name, [RecordDTO([0.0, 0.0], 0)])
         return str(jp.encode(mock, unpicklable=False))
 
 
