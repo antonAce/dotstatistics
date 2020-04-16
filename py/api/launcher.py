@@ -1,9 +1,12 @@
 import os
 import uuid
+import numpy as np
 import jsonpickle as jp
 
 from flask import Flask, request, render_template, url_for
 from flask_cors import CORS, cross_origin
+
+from sklearn.linear_model import LinearRegression
 
 from api.settings.settings import IS_IN_DEBUG_MODE, API_PORT, API_SECRET, DEPLOY_LINK
 from api.models.dataset import DatasetHeader, DatasetToRead, RecordDTO
@@ -132,18 +135,45 @@ def get_dataset_by_id(guid):
 @app.route('/api/analysis/<guid>/equation', methods=['GET'])
 @cross_origin()
 def get_dataset_equation(guid):
-    digits_val = none_query_helper(request.args.get('digits'), 3)
-    mock = Polynomial([8.94, -0.345, 0.013, -0.043])
-    return str(jp.encode(mock, unpicklable=False))
+    digits_val = int(none_query_helper(request.args.get('digits'), 3))
+    records = record_repository.get_dataset_records(guid)
+
+    records_dto = []
+
+    for item in records:
+        records_dto.append(RecordDTO([float(arg) for arg in str(item[1]).split('|')], float(item[2])))
+
+    X = np.array([record.inputs for record in records_dto])
+    Y = np.array([record.output for record in records_dto])
+
+    reg = LinearRegression().fit(X, Y)
+    val = Polynomial(np.concatenate([np.array([reg.intercept_]), np.array(reg.coef_)]).tolist())
+    val.koeficients = np.array([round(x, digits_val) for x in val.koeficients]).tolist()
+    return str(jp.encode(val, unpicklable=False))
 
 
 @app.route('/api/analysis/<guid>/estimations', methods=['GET'])
 @cross_origin()
 def get_dataset_estimations(guid):
-    digits_val = none_query_helper(request.args.get('digits'), 3)
-    mock = AccuracyEstimations([3.864, -0.638, -2.2, 0.311, 2.639, 6.05, 7.031, 1.456, 0.468],
-                               [2.88, -0.521, -0.903, 1.223, 5.013, 5.915, 7.751, -0.622, -1.753], 5.632, 0.894)
-    return str(jp.encode(mock, unpicklable=False))
+    digits_val = int(none_query_helper(request.args.get('digits'), 3))
+    records = record_repository.get_dataset_records(guid)
+    records_dto = []
+
+    for item in records:
+        records_dto.append(RecordDTO([float(arg) for arg in str(item[1]).split('|')], float(item[2])))
+
+    X = np.array([record.inputs for record in records_dto])
+    Y = np.array([record.output for record in records_dto])
+
+    reg = LinearRegression().fit(X, Y)
+    val = Polynomial(np.concatenate([np.array([reg.intercept_]), np.array(reg.coef_)]).tolist())
+    val.koeficients = np.array([round(x, digits_val) for x in val.koeficients]).tolist()
+
+    approx_val = [float(reg.predict([record.inputs])[0]) for record in records_dto]
+    disc_val = Y.tolist()
+    err = round(float(sum([abs(approx_val[i] - disc_val[i]) for i in range(len(approx_val))])), digits_val)
+    estimations = AccuracyEstimations(approx_val, disc_val, err, round(float(reg.score(X, Y)), digits_val))
+    return str(jp.encode(estimations, unpicklable=False))
 
 
 @app.route('/api/fileUpload', methods=['POST'])
