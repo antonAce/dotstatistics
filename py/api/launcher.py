@@ -53,12 +53,13 @@ def guid_plot(guid):
 def list_datasets():
     if request.method == 'POST':
         obj = jp.decode(str(request.json).replace("'", '"'))
+
         records = []
 
-        for record in obj["Records"]:
-            records = RecordDTO(record["Inputs"], record["Output"])
+        for record in obj["records"]:
+            records = RecordDTO(record["inputs"], record["output"])
 
-        dataset_repository.insert_new_dataset(Dataset(str(uuid.uuid4()), obj["Name"]))
+        dataset_repository.insert_new_dataset(Dataset(str(uuid.uuid4()), obj["name"]))
         return "Dataset stored successfully!"
     else:
         limit_val = none_query_helper(request.args.get('limit'), 25)
