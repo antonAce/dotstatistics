@@ -179,11 +179,25 @@ def get_dataset_estimations(guid):
 @app.route('/api/fileUpload', methods=['POST'])
 @cross_origin()
 def upload_file():
-    target = os.path.join(os.curdir, 'static/img/')
-    if not os.path.isdir(target):
-        os.makedirs(target)
+    name = request.form['name']
     file = request.files['file']
-    return file.read().decode('utf-8')
+    data = file.read().decode('utf-8')
+    dataset_id = str(uuid.uuid4())
+
+    dataset_repository.insert_new_dataset(Dataset(dataset_id, name))
+    records = data.split('\n')
+
+    for record in records:
+        inputs = [float(x) for x in record.split(',')[:-1]]
+
+        record_repository.insert_record(Record(
+            '|'.join([str(x) for x in inputs]),
+            float(record[len(record) - 1]),
+            dataset_id
+        ))
+
+    unit_of_work.commit()
+    return "Dataset {} imported successfully!".format(name)
 
 
 if __name__ == '__main__':
