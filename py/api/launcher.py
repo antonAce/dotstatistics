@@ -9,8 +9,9 @@ from api.settings.settings import IS_IN_DEBUG_MODE, API_PORT, API_SECRET, DEPLOY
 from api.models.dataset import DatasetHeader, DatasetToRead, RecordDTO
 from api.models.analytics import Polynomial, AccuracyEstimations
 
-from dal.repositories.repository import DatasetRepository
-from dal.models.dataset import Dataset
+from dal.repositories.repository import DatasetRepository, RecordRepository
+from dal.repositories.unit_of_work import UnitOfWork
+from dal.models.dataset import Dataset, Record
 
 app = Flask(__name__)
 app.secret_key = API_SECRET
@@ -19,6 +20,8 @@ CORS(app, resources={r"/api/*": {"origins": DEPLOY_LINK}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 dataset_repository = DatasetRepository()
+record_repository = RecordRepository()
+unit_of_work = UnitOfWork()
 
 
 def none_query_helper(_input, none_to_val):
@@ -53,13 +56,18 @@ def guid_plot(guid):
 def list_datasets():
     if request.method == 'POST':
         obj = jp.decode(str(request.json).replace("'", '"'))
-
-        records = []
+        dataset_id = str(uuid.uuid4())
+        dataset_repository.insert_new_dataset(Dataset(dataset_id, obj["name"]))
 
         for record in obj["records"]:
-            records = RecordDTO(record["inputs"], record["output"])
+            record_repository.insert_record(Record(
+                '|'.join([str(x) for x in record["inputs"]]),
+                float(record["output"]),
+                dataset_id
+            ))
 
-        dataset_repository.insert_new_dataset(Dataset(str(uuid.uuid4()), obj["name"]))
+        unit_of_work.commit()
+
         return "Dataset stored successfully!"
     else:
         limit_val = none_query_helper(request.args.get('limit'), 25)
@@ -86,15 +94,38 @@ def list_datasets():
 @cross_origin()
 def get_dataset_by_id(guid):
     if request.method == 'PUT':
+        record_repository.delete_records_of_dataset(guid)
+        dataset_repository.delete_dataset(guid)
+
+        obj = jp.decode(str(request.json).replace("'", '"'))
+        dataset_id = guid
+        dataset_repository.insert_new_dataset(Dataset(dataset_id, obj["name"]))
+
+        for record in obj["records"]:
+            record_repository.insert_record(Record(
+                '|'.join([str(x) for x in record["inputs"]]),
+                float(record["output"]),
+                dataset_id
+            ))
+
+        unit_of_work.commit()
         return "Dataset updated successfully!"
     elif request.method == 'DELETE':
+        record_repository.delete_records_of_dataset(guid)
         dataset_repository.delete_dataset(guid)
+        unit_of_work.commit()
         return "Dataset deleted successfully!"
     else:
         outputs_only_val = none_query_helper(request.args.get('outputsOnly'), False)
-
         dataset = dataset_repository.get_dataset_by_id(guid)
-        mock = DatasetToRead(dataset.Id, dataset.Name, [RecordDTO([0.0, 0.0], 0)])
+        records = record_repository.get_dataset_records(guid)
+
+        records_dto = []
+
+        for item in records:
+            records_dto.append(RecordDTO([float(arg) for arg in str(item[1]).split('|')], float(item[2])))
+
+        mock = DatasetToRead(dataset.Id, dataset.Name, records_dto)
         return str(jp.encode(mock, unpicklable=False))
 
 

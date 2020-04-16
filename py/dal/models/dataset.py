@@ -22,8 +22,7 @@ class Record(ModelBase):
 
     DatasetId = Column(String, ForeignKey('Dataset.Id'))
 
-    def __init__(self, _id, _inputs, _output, _dataset_id):
-        self.Id = _id
+    def __init__(self, _inputs, _output, _dataset_id):
         self.Inputs = _inputs
         self.Output = _output
         self.DatasetId = _dataset_id
