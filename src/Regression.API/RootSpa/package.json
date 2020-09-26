@@ -2,12 +2,12 @@
   "name": "regressionapp",
   "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint:ci": "node ./node_modules/@angular/cli/bin/ng lint",
+    "build:ci": "node ./node_modules/@angular/cli/bin/ng build",
+    "test:ci": "node ./node_modules/jest/bin/jest",
+    "build:watch": "node ./node_modules/@angular/cli/bin/ng build --watch",
+    "test:watch": "node ./node_modules/jest/bin/jest --watch",
+    "build:prod": "node ./node_modules/@angular/cli/bin/ng build --prod"
   },
   "private": true,
   "dependencies": {
