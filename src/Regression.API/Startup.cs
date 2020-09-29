@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Regression.API.Extensions;
+using Regression.API.Filters;
 using Regression.API.Helpers;
 using Regression.API.Interfaces;
 using Regression.Calculation.Infrastructure;
@@ -32,7 +33,10 @@ namespace Regression.API
             services.AddRegression();
             services.AddRegressionEstimation();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilter>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
