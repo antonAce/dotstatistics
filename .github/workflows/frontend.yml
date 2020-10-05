@@ -1,0 +1,25 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - name: Install Packages
+      run: npm install --prefix src/Regression.API/RootSpa
+    - name: Lint
+      run: npm run lint:ci --prefix src/Regression.API/RootSpa
+    - name: Build
+      run: npm run build:ci --prefix src/Regression.API/RootSpa
+    - name: Test
+      run: npm run test:ci --prefix src/Regression.API/RootSpa
