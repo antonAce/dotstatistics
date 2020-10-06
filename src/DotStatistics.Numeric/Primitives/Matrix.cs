@@ -30,9 +30,9 @@ namespace DotStatistics.Numeric.Primitives
         {
             var core = new double[height, width];
 
-            for (int i = 0; i < core.GetLength(0); i++)
+            for (var i = 0; i < core.GetLength(0); i++)
             {
-                for (int j = 0; j < core.GetLength(1); j++)
+                for (var j = 0; j < core.GetLength(1); j++)
                 {
                     core[i, j] = 0;
                 }
@@ -45,9 +45,9 @@ namespace DotStatistics.Numeric.Primitives
         {
             var core = new double[height, width];
 
-            for (int i = 0; i < core.GetLength(0); i++)
+            for (var i = 0; i < core.GetLength(0); i++)
             {
-                for (int j = 0; j < core.GetLength(1); j++)
+                for (var j = 0; j < core.GetLength(1); j++)
                 {
                     core[i, j] = i == j ? 1 : 0;
                 }
