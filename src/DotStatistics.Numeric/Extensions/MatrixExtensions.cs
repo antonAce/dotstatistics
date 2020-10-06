@@ -10,13 +10,13 @@ namespace DotStatistics.Numeric.Extensions
             if (source.Height != operand.Height || source.Width != operand.Width)
                 throw new InvalidOperationException("The operands' size doesn't match!");
             
-            var result = Matrix.Zeros(source.Height, source.Width);
+            var result = source.Copy();
 
             for (int i = 0; i < source.Height; i++)
             {
                 for (int j = 0; j < source.Width; j++)
                 {
-                    result[i, j] = source[i, j] + operand[i, j];
+                    result[i, j] += operand[i, j];
                 }
             }
 
@@ -28,13 +28,13 @@ namespace DotStatistics.Numeric.Extensions
             if (source.Height != operand.Height || source.Width != operand.Width)
                 throw new InvalidOperationException("The operands' size doesn't match!");
             
-            var result = Matrix.Zeros(source.Height, source.Width);
+            var result = source.Copy();
 
             for (int i = 0; i < source.Height; i++)
             {
                 for (int j = 0; j < source.Width; j++)
                 {
-                    result[i, j] = source[i, j] - operand[i, j];
+                    result[i, j] -= operand[i, j];
                 }
             }
             
@@ -46,13 +46,13 @@ namespace DotStatistics.Numeric.Extensions
             if (source.Height != operand.Height || source.Width != operand.Width)
                 throw new InvalidOperationException("The operands' size doesn't match!");
             
-            var result = Matrix.Zeros(source.Height, source.Width);
+            var result = source.Copy();
 
             for (int i = 0; i < source.Height; i++)
             {
                 for (int j = 0; j < source.Width; j++)
                 {
-                    result[i, j] = source[i, j] * operand[i, j];
+                    result[i, j] *= operand[i, j];
                 }
             }
 
@@ -61,13 +61,13 @@ namespace DotStatistics.Numeric.Extensions
         
         public static IMatrix Multiply(this IMatrix source, double scalar)
         {
-            var result = Matrix.Zeros(source.Height, source.Width);
+            var result = source.Copy();
             
             for (int i = 0; i < source.Height; i++)
             {
                 for (int j = 0; j < source.Width; j++)
                 {
-                    result[i, j] = source[i, j] * scalar;
+                    result[i, j] *= scalar;
                 }
             }
 
@@ -80,7 +80,7 @@ namespace DotStatistics.Numeric.Extensions
                 throw new InvalidOperationException(
                     "Rows amount of first operand must match columns amount of second!");
 
-            var result = Matrix.Zeros(source.Height, operand.Width);
+            var result = source.Copy();
 
             for (int i = 0; i < result.Height; i++)
             {

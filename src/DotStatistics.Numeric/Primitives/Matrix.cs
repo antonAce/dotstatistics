@@ -24,6 +24,8 @@ namespace DotStatistics.Numeric.Primitives
             set => _core[x, y] = value;
         }
 
+        public IMatrix Copy() => new Matrix(_core);
+
         public static IMatrix Zeros(int height, int width)
         {
             var core = new double[height, width];
