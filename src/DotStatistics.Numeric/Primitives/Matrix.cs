@@ -6,9 +6,9 @@ namespace DotStatistics.Numeric.Primitives
     {
         private readonly double[,] _core;
 
-        public int Width => _core.GetLength(0);
+        public int Width => _core.GetLength(1);
 
-        public int Height => _core.GetLength(1);
+        public int Height => _core.GetLength(0);
 
         public Matrix(double[,] core)
         {
