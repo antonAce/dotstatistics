@@ -21,6 +21,20 @@ namespace DotStatistics.Numeric.Tests.Extensions
             MemberType = typeof(AddOperationTestCasesGenerator))]
         public void AddOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
             Assert.Throws<InvalidOperationException>(() => leftOperand.Add(rightOperand));
+        
+        [Theory]
+        [MemberData(
+            nameof(SubtractOperationTestCasesGenerator.GetSubtractOperationPositiveTestCases),
+            MemberType = typeof(SubtractOperationTestCasesGenerator))]
+        public void SubtractOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
+            Assert.True(MatricesAreEqual(leftOperand.Subtract(rightOperand), result));
+        
+        [Theory]
+        [MemberData(
+            nameof(SubtractOperationTestCasesGenerator.GetSubtractOperationNegativeTestCases),
+            MemberType = typeof(SubtractOperationTestCasesGenerator))]
+        public void SubtractOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
+            Assert.Throws<InvalidOperationException>(() => leftOperand.Subtract(rightOperand));
 
         private bool MatricesAreEqual(IMatrix expected, IMatrix actual) =>
             Enumerable.Range(0, expected.Height - 1)
