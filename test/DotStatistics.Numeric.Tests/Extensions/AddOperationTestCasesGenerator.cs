@@ -28,5 +28,20 @@ namespace DotStatistics.Numeric.Tests.Extensions
                 new Matrix(new double[,] {{1, 3, 12}, {2, 2, 3}, {4, 5, 5}})
             };
         }
+
+        public static IEnumerable<object[]> GetAddOperationNegativeTestCases()
+        {
+            yield return new object[]
+            {
+                new Matrix(new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 0}}),
+                new Matrix(new double[,] {{1, 1}, {1, 1}})
+            };
+            
+            yield return new object[]
+            {
+                new Matrix(new double[,] {{1, 0}, {0, 1}}),
+                new Matrix(new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 0}})
+            };
+        }
     }
 }
