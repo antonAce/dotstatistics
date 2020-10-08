@@ -56,6 +56,20 @@ namespace DotStatistics.Numeric.Tests.Extensions
             MemberType = typeof(MultiplyOperationTestCasesGenerator))]
         public void MultiplyByScalarOperation_PositiveTestCases(IMatrix operand, double scalar, IMatrix result) =>
             Assert.True(MatricesAreEqual(operand.Multiply(scalar), result));
+        
+        [Theory]
+        [MemberData(
+            nameof(DotOperationTestCasesGenerator.GetDotOperationPositiveTestCases),
+            MemberType = typeof(DotOperationTestCasesGenerator))]
+        public void DotOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
+            Assert.True(MatricesAreEqual(leftOperand.Dot(rightOperand), result));
+        
+        [Theory]
+        [MemberData(
+            nameof(DotOperationTestCasesGenerator.GetDotOperationNegativeTestCases),
+            MemberType = typeof(DotOperationTestCasesGenerator))]
+        public void DotOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
+            Assert.Throws<InvalidOperationException>(() => leftOperand.Dot(rightOperand));
 
         private bool MatricesAreEqual(IMatrix expected, IMatrix actual) =>
             Enumerable.Range(0, expected.Height - 1)

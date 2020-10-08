@@ -80,7 +80,7 @@ namespace DotStatistics.Numeric.Extensions
                 throw new InvalidOperationException(
                     "Rows amount of first operand must match columns amount of second.");
 
-            var result = source.Copy();
+            var result = Matrix.Zeros(source.Height, operand.Width);
 
             for (var i = 0; i < result.Height; i++)
             {
