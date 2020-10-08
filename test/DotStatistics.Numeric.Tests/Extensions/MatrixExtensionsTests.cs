@@ -35,6 +35,27 @@ namespace DotStatistics.Numeric.Tests.Extensions
             MemberType = typeof(SubtractOperationTestCasesGenerator))]
         public void SubtractOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
             Assert.Throws<InvalidOperationException>(() => leftOperand.Subtract(rightOperand));
+        
+        [Theory]
+        [MemberData(
+            nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByMatrixOperationPositiveTestCases),
+            MemberType = typeof(MultiplyOperationTestCasesGenerator))]
+        public void MultiplyByMatrixOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
+            Assert.True(MatricesAreEqual(leftOperand.Multiply(rightOperand), result));
+        
+        [Theory]
+        [MemberData(
+            nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByMatrixOperationNegativeTestCases),
+            MemberType = typeof(MultiplyOperationTestCasesGenerator))]
+        public void MultiplyByMatrixOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
+            Assert.Throws<InvalidOperationException>(() => leftOperand.Multiply(rightOperand));
+        
+        [Theory]
+        [MemberData(
+            nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByScalarOperationTestCases),
+            MemberType = typeof(MultiplyOperationTestCasesGenerator))]
+        public void MultiplyByScalarOperation_PositiveTestCases(IMatrix operand, double scalar, IMatrix result) =>
+            Assert.True(MatricesAreEqual(operand.Multiply(scalar), result));
 
         private bool MatricesAreEqual(IMatrix expected, IMatrix actual) =>
             Enumerable.Range(0, expected.Height - 1)
