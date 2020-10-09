@@ -1,112 +1,24 @@
-# Regression.NET
+# DotStatistics
 
-![Documentation](https://img.shields.io/github/languages/code-size/antonAce/Regression.NET)
-![Documentation](https://img.shields.io/github/languages/count/antonAce/Regression.NET)
 
-ASP.NET Core + Angular application for processing datasets using regression modeling methods.
+![Documentation](https://img.shields.io/github/workflow/status/antonAce/regression-net/Backend%20CI?label=Backend%20CI)
+![Documentation](https://img.shields.io/github/workflow/status/antonAce/regression-net/Frontend%20CI?label=Frontend%20CI)
 
-## Description
 
-Regression processing algorithms:
+### Description
 
-- Least squares method;
 
-Supported regression models:
+**DotStatistics** is an open online multi-user platform for statistical analysis. Created using **.NET Core** technologies.
 
-- Multiargument linear;
 
-Dataset storing providers:
+### Implemented alogrithms
 
-- File system;
 
-## Technologies stack
+* [Matrix operations](src/DotStatistics.Numeric/Primitives/Matrix.cs)
+    * [Basic arithmetic operations](src/DotStatistics.Numeric/Extensions/MatrixExtensions.cs)
 
-- ASP.NET Core 3.1;
-- Angular 8;
-- Bootstrap 4.4;
-- NG KaTeX 2;
-- RXJS 6;
-- D3JS;
 
-## API Map
+### Technologies stack
 
-### Dataset storage
-
-Datasets listing
-
-```http
-GET api/dataset?limit=(:int:)&offset=(:int:)&headersOnly=(:bool:)
-```
-
-Get dataset by GUID
-
-```http
-GET api/dataset/(:GUID:)?outputsOnly=(:bool:)
-```
-
-Store new dataset
-
-```http
-POST api/dataset
-Content-Type application/json
-
-{
-    "Name": "(:string:)",
-    "Records": [{
-        "Inputs": [(:double:), ...],
-        "Output": (:double:)
-    },
-    ...]
-}
-```
-
-Update dataset by GUID
-
-```http
-PUT api/dataset/(:GUID:)
-Content-Type application/json
-
-{
-    "Name": "(:string:)",
-    "Records": [{
-        "Inputs": [(:double:), ...],
-        "Output": (:double:)
-    },
-    ...]
-}
-```
-
-Drop dataset by ID
-
-```http
-DELETE api/dataset/(:GUID:)
-```
-
-### Data processing
-
-Regression processing
-
-```http
-POST api/processing?digits=(:int:)
-Content-Type application/json
-
-{
-    "Records": [{
-        "Inputs": [(:double:), ...],
-        "Output": (:double:)
-    },
-    ...]
-}
-```
-
-### Uploading CSV
-
-Store dataset from file
-
-```http
-POST api/fileUpload
-enctype multipart/form-data
-
-name = (:string:)
-file = (:IFormFile:)
-```
+* [ASP.NET CORE](https://github.com/dotnet/aspnetcore)
+* [ANGULAR](https://github.com/angular/angular)
