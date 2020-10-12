@@ -16,52 +16,49 @@ namespace DotStatistics.Numeric.LinearAlgebra
             if (coefficients.Height != outputs.Height)
                 throw new InvalidOperationException("The height of the coefficient matrix and outputs vector should match.");
 
-            var coefficientsCopy = coefficients.Copy();
-            var result = outputs.Copy();
-            
-            // Swap non-zero axis
-            for (var j = 0; j < coefficientsCopy.Height - 1; j++)
+            var roots = Matrix.Zeros(coefficients.Height, 1);
+            var mergedCoefficients = new double[coefficients.Height, coefficients.Width + 1];
+
+            for (int i = 0; i < coefficients.Height; i++)
             {
-                if (coefficientsCopy[j, j] != 0) continue;
-
-                var pivotAxis = j + 1;
-
-                for (int i = j + 1; i < coefficientsCopy.Height; i++)
+                for (int j = 0; j < coefficients.Width + 1; j++)
                 {
-                    if (coefficientsCopy[i, j] == 0) continue;
-                    pivotAxis = i;
-                    break;
-                }
-                
-                if (coefficientsCopy[pivotAxis, j] == 0)
-                    throw new InvalidOperationException("System doesn't have unique solution.");
-                
-                var swapAxis = new double[coefficientsCopy.Height + 1];
-
-                for (var i = 0; i < coefficientsCopy.Height; i++)
-                {
-                    swapAxis[i] = coefficientsCopy[pivotAxis, i];
-                    coefficientsCopy[pivotAxis, i] = coefficientsCopy[j, i];
-                    coefficientsCopy[j, i] = swapAxis[i];
+                    mergedCoefficients[i, j] = j != coefficients.Width
+                        ? coefficients[i, j]
+                        : outputs[i, 0];
                 }
             }
-        
-            // Triangulate matrix
-            for (var i = 0; i < coefficientsCopy.Height - 1; i++)
-            {
-                for (var j = i + 1; j < coefficientsCopy.Height; j++)
-                {
-                    var rowPivot = coefficientsCopy[i, i];
-                    var columnPivot = coefficientsCopy[j, i];
 
-                    for (var k = 0; k < coefficientsCopy.Height + 1; k++)
+            // Coefficients matrix triangulation
+            for (var i = 0; i < coefficients.Height - 1; i++)
+            {
+                var pivot = mergedCoefficients[i, i];
+                
+                for (var j = i + 1; j < coefficients.Width; j++)
+                {
+                    var factor = mergedCoefficients[j, i] / pivot;
+                    
+                    for (var k = 0; k < coefficients.Width + 1; k++)
                     {
-                        coefficientsCopy[j, i] = coefficientsCopy[j, i] * rowPivot - coefficientsCopy[i, i] * columnPivot;
+                        mergedCoefficients[j, k] -= factor * mergedCoefficients[i, k];
                     }
                 }
             }
+            
+            // Reverse triangulation
+            for (var i = coefficients.Height - 1; i >= 0; i--)
+            {
+                var rowSum = 0.0;
 
-            return result;
+                for (var j = i + 1; j < coefficients.Width; j++)
+                {
+                    rowSum += mergedCoefficients[i, j] * roots[j, 0];
+                }
+
+                roots[i, 0] = (mergedCoefficients[i, coefficients.Width] - rowSum) / mergedCoefficients[i, i];
+            }
+
+            return roots;
         }
     }
 }
