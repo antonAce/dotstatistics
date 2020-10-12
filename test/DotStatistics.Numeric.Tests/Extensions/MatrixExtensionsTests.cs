@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Xunit;
+using FluentAssertions;
 using DotStatistics.Numeric.Extensions;
 using DotStatistics.Numeric.Primitives;
 
@@ -13,63 +14,71 @@ namespace DotStatistics.Numeric.Tests.Extensions
             nameof(AddOperationTestCasesGenerator.GetAddOperationPositiveTestCases),
             MemberType = typeof(AddOperationTestCasesGenerator))]
         public void AddOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
-            Assert.True(MatricesAreEqual(leftOperand.Add(rightOperand), result));
-        
+            MatricesAreEqual(leftOperand.Add(rightOperand), result).Should().BeTrue();
+
         [Theory]
         [MemberData(
             nameof(AddOperationTestCasesGenerator.GetAddOperationNegativeTestCases),
             MemberType = typeof(AddOperationTestCasesGenerator))]
         public void AddOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
-            Assert.Throws<InvalidOperationException>(() => leftOperand.Add(rightOperand));
-        
+            new Action(() => leftOperand.Add(rightOperand)).Should()
+                .ThrowExactly<InvalidOperationException>()
+                .WithMessage("The operands' size doesn't match.");
+
         [Theory]
         [MemberData(
             nameof(SubtractOperationTestCasesGenerator.GetSubtractOperationPositiveTestCases),
             MemberType = typeof(SubtractOperationTestCasesGenerator))]
         public void SubtractOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
-            Assert.True(MatricesAreEqual(leftOperand.Subtract(rightOperand), result));
+            MatricesAreEqual(leftOperand.Subtract(rightOperand), result).Should().BeTrue();
         
         [Theory]
         [MemberData(
             nameof(SubtractOperationTestCasesGenerator.GetSubtractOperationNegativeTestCases),
             MemberType = typeof(SubtractOperationTestCasesGenerator))]
         public void SubtractOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
-            Assert.Throws<InvalidOperationException>(() => leftOperand.Subtract(rightOperand));
+            new Action(() => leftOperand.Subtract(rightOperand)).Should()
+                .ThrowExactly<InvalidOperationException>()
+                .WithMessage("The operands' size doesn't match.");
         
         [Theory]
         [MemberData(
             nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByMatrixOperationPositiveTestCases),
             MemberType = typeof(MultiplyOperationTestCasesGenerator))]
         public void MultiplyByMatrixOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
-            Assert.True(MatricesAreEqual(leftOperand.Multiply(rightOperand), result));
+            MatricesAreEqual(leftOperand.Multiply(rightOperand), result).Should().BeTrue();
         
         [Theory]
         [MemberData(
             nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByMatrixOperationNegativeTestCases),
             MemberType = typeof(MultiplyOperationTestCasesGenerator))]
         public void MultiplyByMatrixOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
-            Assert.Throws<InvalidOperationException>(() => leftOperand.Multiply(rightOperand));
+            new Action(() => leftOperand.Multiply(rightOperand)).Should()
+                .ThrowExactly<InvalidOperationException>()
+                .WithMessage("The operands' size doesn't match.");
         
         [Theory]
         [MemberData(
             nameof(MultiplyOperationTestCasesGenerator.GetMultiplyByScalarOperationTestCases),
             MemberType = typeof(MultiplyOperationTestCasesGenerator))]
         public void MultiplyByScalarOperation_PositiveTestCases(IMatrix operand, double scalar, IMatrix result) =>
-            Assert.True(MatricesAreEqual(operand.Multiply(scalar), result));
+            MatricesAreEqual(operand.Multiply(scalar), result).Should().BeTrue();
         
         [Theory]
         [MemberData(
             nameof(DotOperationTestCasesGenerator.GetDotOperationPositiveTestCases),
             MemberType = typeof(DotOperationTestCasesGenerator))]
         public void DotOperation_PositiveTestCases(IMatrix leftOperand, IMatrix rightOperand, IMatrix result) =>
-            Assert.True(MatricesAreEqual(leftOperand.Dot(rightOperand), result));
+            MatricesAreEqual(leftOperand.Dot(rightOperand), result).Should().BeTrue();
         
         [Theory]
         [MemberData(
             nameof(DotOperationTestCasesGenerator.GetDotOperationNegativeTestCases),
             MemberType = typeof(DotOperationTestCasesGenerator))]
         public void DotOperation_NegativeTestCases(IMatrix leftOperand, IMatrix rightOperand) =>
-            Assert.Throws<InvalidOperationException>(() => leftOperand.Dot(rightOperand));
+            new Action(() => leftOperand.Dot(rightOperand)).Should()
+                .ThrowExactly<InvalidOperationException>()
+                .WithMessage("Rows amount of first operand must match columns amount of second.");
 
         private bool MatricesAreEqual(IMatrix expected, IMatrix actual) =>
             Enumerable.Range(0, expected.Height - 1)
