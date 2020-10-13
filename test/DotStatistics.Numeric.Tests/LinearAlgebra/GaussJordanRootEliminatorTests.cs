@@ -23,6 +23,18 @@ namespace DotStatistics.Numeric.Tests.LinearAlgebra
                 new Matrix(new double[,] {{8}, {-11}, {-3}}),
                 new Matrix(new double[,] {{2}, {3}, {-1}})
             };
+            yield return new object[]
+            {
+                new Matrix(new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}),
+                new Matrix(new double[,] {{1}, {2}, {3}}),
+                new Matrix(new double[,] {{1}, {2}, {3}})
+            };
+            yield return new object[]
+            {
+                new Matrix(new[,] {{1.0, 2.0, -3.0, -1.0}, {0.0, -3.0, 2.0, 6.0}, {0.0, 5.0, -6.0, -2.0}, {0.0, -1.0, 8.0, 1.0}}),
+                new Matrix(new[,] {{0.0}, {-8.0}, {0.0}, {-8.0}}),
+                new Matrix(new[,] {{-1.0}, {-2.0}, {-1.0}, {-2.0}})
+            };
         }
 
         [Theory]
