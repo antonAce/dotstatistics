@@ -22,11 +22,9 @@ namespace DotStatistics.Numeric.LinearAlgebra
             for (int i = 0; i < coefficients.Height; i++)
             {
                 for (int j = 0; j < coefficients.Width + 1; j++)
-                {
                     mergedCoefficients[i, j] = j != coefficients.Width
                         ? coefficients[i, j]
                         : outputs[i, 0];
-                }
             }
 
             // Coefficients matrix triangulation
@@ -39,9 +37,10 @@ namespace DotStatistics.Numeric.LinearAlgebra
                     var factor = mergedCoefficients[j, i] / pivot;
                     
                     for (var k = 0; k < coefficients.Width + 1; k++)
-                    {
                         mergedCoefficients[j, k] -= factor * mergedCoefficients[i, k];
-                    }
+
+                    if (mergedCoefficients[j, j] == 0)
+                        throw new InvalidOperationException("Coefficient matrix has linear dependent rows.");
                 }
             }
             
@@ -51,9 +50,7 @@ namespace DotStatistics.Numeric.LinearAlgebra
                 var rowSum = 0.0;
 
                 for (var j = i + 1; j < coefficients.Width; j++)
-                {
                     rowSum += mergedCoefficients[i, j] * roots[j, 0];
-                }
 
                 roots[i, 0] = (mergedCoefficients[i, coefficients.Width] - rowSum) / mergedCoefficients[i, i];
             }
