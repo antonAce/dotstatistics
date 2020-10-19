@@ -4,15 +4,15 @@ namespace DotStatistics.Numeric.Primitives
 {
     public class Polynomial : IPolynomial
     {
-        private readonly IDictionary<double, double> _powerSets;
+        private readonly IDictionary<int, double> _powerSets;
 
-        public Polynomial(IDictionary<double, double> powerSets) =>
+        public Polynomial(IDictionary<int, double> powerSets) =>
             _powerSets = powerSets;
 
-        public double this[double power]
+        public double this[int coefficient]
         {
-            get => _powerSets[power];
-            set => _powerSets[power] = value;
+            get => _powerSets[coefficient];
+            set => _powerSets[coefficient] = value;
         }
     }
 }
