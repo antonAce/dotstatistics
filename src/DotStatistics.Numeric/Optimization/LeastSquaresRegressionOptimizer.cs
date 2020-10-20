@@ -50,7 +50,18 @@ namespace DotStatistics.Numeric.Optimization
 
         public IMatrix Predict(IMatrix inputs)
         {
-            throw new NotImplementedException();
+            if (_fittedPolynomial is null)
+                throw new InvalidOperationException("Fit polynomial first.");
+            
+            var predictions = Matrix.Zeros(inputs.Height, 1);
+
+            for (var i = 0; i < inputs.Height; i++)
+            {
+                predictions[i, 0] = _fittedPolynomial[0] +
+                              Enumerable.Range(1, inputs.Width).Sum(j => inputs[i, j] * _fittedPolynomial[j]);
+            }
+
+            return predictions;
         }
 
         public double Score(IMatrix inputs)
