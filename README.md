@@ -15,7 +15,12 @@
 
 
 * [Matrix operations](src/DotStatistics.Numeric/Primitives/Matrix.cs)
-    * [Basic arithmetic operations](src/DotStatistics.Numeric/Extensions/MatrixExtensions.cs)
+  * [Basic arithmetic operations](src/DotStatistics.Numeric/Extensions/MatrixExtensions.cs)
+  * [Conversion to built-in types](src/DotStatistics.Numeric/Extensions/ConversionExtensions.cs)
+* [Linear Algebra](src/DotStatistics.Numeric/LinearAlgebra)
+  * [Gauss-Jordan method](src/DotStatistics.Numeric/LinearAlgebra/GaussJordanRootEliminator.cs)
+* [Optimization](src/DotStatistics.Numeric/Optimization)
+  * [Least squares linear regression](src/DotStatistics.Numeric/Optimization/LeastSquaresRegressionOptimizer.cs)
 
 
 ### Technologies stack

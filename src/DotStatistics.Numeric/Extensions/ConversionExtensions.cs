@@ -4,7 +4,7 @@ namespace DotStatistics.Numeric.Extensions
 {
     public static class ConversionExtensions
     {
-        public static double[,] ToArray(this IMatrix matrix)
+        public static double[,] To2DArray(this IMatrix matrix)
         {
             var result = new double[matrix.Height, matrix.Width];
 
