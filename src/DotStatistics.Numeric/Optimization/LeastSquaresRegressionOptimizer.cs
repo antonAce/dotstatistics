@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using DotStatistics.Numeric.Extensions;
 using DotStatistics.Numeric.LinearAlgebra;
 using DotStatistics.Numeric.Primitives;
 
@@ -64,9 +65,21 @@ namespace DotStatistics.Numeric.Optimization
             return predictions;
         }
 
-        public double Score(IMatrix inputs)
+        public double Score(IMatrix inputs, IMatrix values)
         {
-            throw new NotImplementedException();
+            var predictions = Predict(inputs);
+            var valMean = Enumerable.Range(0, values.Height)
+                .Sum(k => values[k, 0]) / values.Height;
+
+            double squaredSumResidue = 0.0, squaredSumTotal = 0.0;
+            
+            for (var i = 0; i < inputs.Height; i++)
+            {
+                squaredSumResidue += Math.Pow(values[i, 0] - predictions[i, 0], 2);
+                squaredSumTotal += Math.Pow(values[i, 0] - valMean, 2);
+            }
+            
+            return 1.0 - squaredSumResidue / squaredSumTotal;
         }
 
         public IRootEliminator RootEliminator

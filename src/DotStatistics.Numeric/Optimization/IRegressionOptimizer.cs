@@ -7,6 +7,6 @@ namespace DotStatistics.Numeric.Optimization
     {
         IPolynomial Fit(IMatrix inputs, IMatrix outputs, double error = Double.Epsilon);
         IMatrix Predict(IMatrix inputs);
-        double Score(IMatrix inputs);
+        double Score(IMatrix inputs, IMatrix values);
     }
 }
