@@ -16,8 +16,8 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install packages
-      run: dotnet restore Regression.NET.sln
+      run: dotnet restore DotStatistics.sln
     - name: Build
-      run: dotnet build Regression.NET.sln --configuration Release --no-restore
+      run: dotnet build DotStatistics.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test Regression.NET.sln --configuration Release --no-restore
+      run: dotnet test DotStatistics.sln --configuration Release --no-restore
