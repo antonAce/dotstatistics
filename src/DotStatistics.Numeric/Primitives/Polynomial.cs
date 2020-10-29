@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DotStatistics.Numeric.Primitives
 {
@@ -11,10 +12,11 @@ namespace DotStatistics.Numeric.Primitives
 
         public double this[int coefficient]
         {
-            get => _powerSets[coefficient];
+            get => _powerSets.TryGetValue(coefficient, out var val) ? val : 0.0;
             set => _powerSets[coefficient] = value;
         }
 
-        public double Terms => _powerSets.Count;
+        public int Min => _powerSets.Keys.Min();
+        public int Max => _powerSets.Keys.Max();
     }
 }
