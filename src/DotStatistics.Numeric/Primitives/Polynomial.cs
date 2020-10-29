@@ -14,5 +14,7 @@ namespace DotStatistics.Numeric.Primitives
             get => _powerSets[coefficient];
             set => _powerSets[coefficient] = value;
         }
+
+        public double Terms => _powerSets.Count;
     }
 }
