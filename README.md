@@ -1,4 +1,4 @@
-# DotStatistics
+# dotstatistics
 
 
 ![Documentation](https://img.shields.io/github/workflow/status/antonAce/regression-net/Backend%20CI?label=Backend%20CI)
